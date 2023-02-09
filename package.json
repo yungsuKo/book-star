@@ -1,0 +1,21 @@
+{
+  "name": "book_comm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sass:compile": "node-sass --include-path sass INPUT_FILE.scss OUTPUT_FILE.css"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "requestretry": "^7.1.0"
+  },
+  "devDependencies": {
+    "node-sass": "^8.0.0"
+  }
+}
