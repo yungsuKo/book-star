@@ -1,28 +1,28 @@
 const express = require('express');
-const router = express.Router();
 const request = require('requestretry');
+const router = express.Router();
+
 
 router.get('/', async(req, res, next) => {
+    let result;
     try{
         let options = {
-            url: `https://openapi.naver.com/v1/search/book.json?query=${encodeURI('애자일')}`,
-            headers : {
-                'X-Naver-Client-Id' : "991MGOeYV0TDxhr0iXDO",
-                'X-Naver-Client-Secret' : "qxNN2JiZGw"
-            },
+            url: `http://127.0.0.1:3000/api/book`,
             method: 'GET',
             json: true,
             maxAttempts: 2,
             retryDelay: 500,
             retryStrategy: request.RetryStrategies.HTTPOrNetworkError
         }
-        let result = await request(options);
-        console.log(result.body);
+        result = await request(options);
+        items = result.body.data;
+        console.log(items);
     }catch(error){
         console.log(error);
     }
-
-    res.render('home')
+    res.render('home', {
+        items
+    })
 })
 
 module.exports = router;
