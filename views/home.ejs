@@ -11,33 +11,41 @@
 <body>
     <main>
         <header>
-            <div>메뉴</div>
-            <div>로고</div>
-            <div>마이페이지</div>
+            <div class="menu_btn">메뉴</div>
+            <div class="logo_btn">🕮</div>
+            <% if(isLogin){ %>
+                <div class="login_btn">마이</div>
+            <%}else{ %>
+                <div class="login_btn">회원가입</div>
+            <% } %>
         </header>
+        <div class="home_banner">
+            
+        </div>
         <form class="search_bar">
             <input class="search_bar-box" name="search_keyword" placeholder="검색할 책 이름을 입력하세요"/>
             <button id="search_bar-btn">검색</button>
         </form>
         <div class="book_list">
             <% for(let i=0; i<items.length; i++){ %>
-                <div class="book_item">
+                <a class="book_item" href=<%=`/books/${items[i].isbn}` %>>
                     <div class="book_item-img">
                         <img src=<%=items[i].image %>/>
                     </div>
                     <div class="book_item-title">
                         <%=items[i].title %>
                     </div>
-                    <div class="book_item-description">
-                        <%=items[i].description %>
+                    <div class="book_item-author">
+                        <%=items[i].author %>
                     </div>
-                </div>
+                </a>
             <%} %>
         </div>
     </main>
 
     <script>
-        let detachedBookItem = $('.book_list div').eq(0).detach();
+        let isLogin = false;
+        let detachedBookItem = $('.book_list a').eq(0).detach();
         console.log(detachedBookItem.find('.book_item-title').text())
         function loadBooks(keyword){
             $.ajax({
@@ -51,7 +59,7 @@
                         let clone = detachedBookItem.clone();
                         clone.find('.book_item-img img').attr("src", `${bookData.image}`);
                         clone.find('.book_item-title').text(bookData.title);
-                        clone.find('.book_item-description').text(bookData.description);
+                        clone.find('.book_item-author').text(bookData.author);
                         $('.book_list').append(clone);
                     }
                     console.log($('.book_list').text())
