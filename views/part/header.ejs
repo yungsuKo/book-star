@@ -1,0 +1,11 @@
+<header>
+    <div class="menu_btn">메뉴</div>
+    <div class="logo_btn">🕮</div>
+    <% if(isLogin){ %>
+        <div class="login_btn">마이</div>
+    <%}else{ %>
+        <a href="/user/signup">
+            <div class="login_btn">회원가입</div>
+        </a>
+    <% } %>
+</header>

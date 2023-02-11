@@ -1,3 +1,4 @@
+@charset "UTF-8";
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -19,6 +20,7 @@ time, mark, audio, video {
   vertical-align: baseline;
   text-decoration: none;
   color: black;
+  display: block;
 }
 
 /* HTML5 display-role reset for older browsers */
@@ -48,6 +50,10 @@ q:before, q:after {
 table {
   border-collapse: collapse;
   border-spacing: 0;
+}
+
+body {
+  background-color: yellow;
 }
 
 header {
@@ -89,6 +95,10 @@ main {
   width: 100%;
 }
 
+.search_bar #search_bar-btn {
+  width: 50px;
+}
+
 .book_list {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -113,5 +123,102 @@ main {
 
 .book_item .book_item-title {
   font-weight: 600;
+}
+
+.book_info-short {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: 8px;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+img {
+  width: 100%;
+}
+
+.heart-btn {
+  width: 50px;
+  font-size: 25px;
+  text-align: center;
+  float: right;
+}
+
+/* 모달창의 배경을 만든다 */
+.modal_background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+/* 모달창 영역을 꾸민다 */
+.modal_box {
+  position: absolute;
+  top: calc(50vh - 100px);
+  left: calc(50vw - 200px);
+  background-color: white;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-radius: 10px;
+  width: 400px;
+  height: 200px;
+}
+
+.modal_box .modal_box-close {
+  float: right;
+}
+
+.unshow {
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
+.modal_box-signup {
+  width: 150px;
+  height: 30px;
+  border-radius: 16px;
+  text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  background-color: aqua;
+}
+
+input {
+  display: block;
+  width: 100%;
+}
+
+form {
+  width: 80%;
+  margin: 0 auto;
+}
+
+button {
+  float: right;
 }
 /*# sourceMappingURL=style.css.map */

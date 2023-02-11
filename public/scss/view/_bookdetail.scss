@@ -1,0 +1,57 @@
+
+.book_info-short{
+    display: flex;
+    margin-top: 8px;
+    justify-content: space-around;
+}
+img{
+    width: 100%;
+}
+.heart-btn{
+    width: 50px;
+    font-size: 25px;
+    text-align: center;
+    float: right;
+}
+
+/* 모달창의 배경을 만든다 */
+.modal_background{
+    position: fixed;
+    top:0; left: 0; bottom: 0; right: 0;
+    background: rgba(0, 0, 0, 0.8);
+}
+   
+/* 모달창 영역을 꾸민다 */
+.modal_box{
+    position: absolute;
+    top: calc(50vh - 100px); left: calc(50vw - 200px);
+    background-color: white;
+    display: flex; 
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 10px;
+    width: 400px;
+    height: 200px;
+    .modal_box-close{
+        float: right;
+    }
+}
+
+.unshow{
+    display: none;
+}
+.show{
+    display: block;
+}
+
+.modal_box-signup{
+    width: 150px;
+    height: 30px;
+    border-radius: 16px;
+    text-align: center;
+    display : flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: aqua;
+}

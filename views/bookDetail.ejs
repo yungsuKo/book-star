@@ -4,9 +4,51 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/scss/output/style.css">
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
     <title>Document</title>
 </head>
 <body>
-    
+    <main>
+        <%- include('./part/header') %>
+        <div class="book_info-short">
+            <%= item.title._text%>
+            <div class="heart-btn">♡</div>
+        </div>
+        <img src=<%= item.image._text %>/>
+        <div class="modal_background unshow">
+            <div class="modal_box">
+                <div class="modal_box-close">X</div>
+                <div class="modal_box-description">회원가입 후 사용 가능합니다.</div>
+                <a href="/user/signup">
+                    <div class="modal_box-signup">회원가입 하러하기</div>
+                </a>
+            </div>
+        </div>
+    </main>
+    <script>
+        let isLogin = false;
+        $('.heart-btn').click(function(e){
+            e.preventDefault();
+            if(isLogin){
+                console.log('감사');
+            }else{
+                $('.modal_background').removeClass('unshow');
+                $('.modal_background').addClass('show');
+            }
+        })
+        $('.modal_box-close').click(function(e){
+            e.preventDefault();
+            $('.modal_background').removeClass('show');
+            $('.modal_background').addClass('unshow');
+        })
+        $('.modal_background').click(function(e){
+            
+            if(!e.target.classList.contains("modal_box")){
+                $('.modal_background').removeClass('show');
+                $('.modal_background').addClass('unshow');
+            }
+        })
+    </script>
 </body>
 </html>

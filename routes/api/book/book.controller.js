@@ -1,4 +1,5 @@
 const request = require('requestretry');
+const convert = require('xml-js');
 
 exports.getBookList = async (req, res) => {
     const getData = async (req) => {
@@ -145,13 +146,14 @@ exports.getBookDetail = async (req, res) => {
                     retryStrategy: request.RetryStrategies.HTTPOrNetworkError
                 }
                 let result = await request(options);
-                item = result.body; 
+                item = convert.xml2json(result.body, {compact: true, spaces: 4});
+                item = JSON.parse(item);
                 res.json({
                     status : {
                         code : 200,
                         message: 'success'
                     },
-                    data : item,
+                    data : item.rss.channel.item,
                 });
             }catch(error){
                 console.log(error);
