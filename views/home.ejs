@@ -5,12 +5,57 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/scss/output/style.css">
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
     <title>Document</title>
 </head>
 <body>
-    <h1>
-        Hello!
-        <%=items[0].title%>
-    </h1>
+    <main>
+        <header>
+            <div>메뉴</div>
+            <div>로고</div>
+            <div>마이페이지</div>
+        </header>
+        <form class="search_bar">
+            <input class="search_bar-box" name="search_keyword" placeholder="검색할 책 이름을 입력하세요"/>
+            <button id="search_bar-btn">검색</button>
+        </form>
+        <div class="book_list">
+            <% for(let i=0; i<items.length; i++){ %>
+                <div class="book">
+                    <div>
+                        <img src=<%=items[i].image %>/>
+                    </div>
+                    <div>
+                        <%=items[i].title %>
+                    </div>
+                    <div>
+                        <%=items[i].description %>
+                    </div>
+                </div>
+            <%} %>
+        </div>
+    </main>
+
+    <script>
+        function loadBooks(keyword){
+            $.ajax({
+                type: 'get',
+                url: `api/book/search?search_keyword=${keyword}`,
+                success : function(data){
+                    console.log(data);
+                    $('.book_list').empty();
+                    for(let i = 0; i<data.length; i++){
+                        let bookData = data[i];
+                        let clone = $('.book_list').detach();
+                    }
+                }
+            })
+        }
+        $('.search_bar').submit(function(e){
+            e.preventDefault();
+            let keyword = $('.search_bar-box').val();
+            loadBooks(keyword);
+        })
+    </script>
 </body>
 </html>
