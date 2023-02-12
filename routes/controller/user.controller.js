@@ -50,7 +50,8 @@ router.post('/login', async (req, res, next)=>{
         result = await request(options);
         console.log(result.body.data);
         user = result.body.data;
-        res.redirect("/user/login");
+        res.cookie('jwt', result.body.token)
+        res.redirect("/");
     }catch(err){
         console.log(err);
     }
