@@ -4,20 +4,52 @@ exports.signup = async (req, res) => {
     const createUser = async () => {    
         try{
             const {email, password, nickname} = req.body;
-            const user = await User.create({
-                email, password, nickname
-            })
-            console.log(user)
-            res.json({
+            const exist = await User.exists({email: email});
+            console.log(exist);
+            if(!exist){
+                const user = await User.create({
+                    email, password, nickname
+                })
+                console.log(user)
+                return res.json({
+                    status : {
+                        code : 200,
+                        message: 'success'
+                    },
+                    data: user
+                });
+            }
+            return res.json({
                 status : {
-                    code : 200,
-                    message: 'success'
+                    code : 401,
+                    message: '중복된 회원가입'
                 },
-                data: user
             });
         }catch(err){
             console.log(err);
         }
     }
     await createUser();
+}
+
+exports.login = async (req, res) => {
+    const loginUser = async () => {    
+        try{
+            const { email } = req.body;
+            const user = await User.find({
+                email
+            })
+            
+            res.json({
+                status : {
+                    code : 200,
+                    message: 'success'
+                },
+                data: user[0]
+            });
+        }catch(err){
+            console.log(err);
+        }
+    }
+    await loginUser();
 }
