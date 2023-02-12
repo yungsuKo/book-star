@@ -2,7 +2,6 @@ const express = require('express');
 const request = require('requestretry');
 const router = express();
 
-
 router.get('/', async(req, res, next) => {
     let result;
     try{

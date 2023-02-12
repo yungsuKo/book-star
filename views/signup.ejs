@@ -21,27 +21,27 @@
         </form>
     </main>
     <script>
-        function signup(email, password, nickname){
-            $.ajax({
-                type: 'post',
-                // url : '/api/user/signup',
-                data: {email, password, nickname},
-                dataType: JSON,
-                success: function(result){
-                    location.href = "/";
-                }
-            })
-        }
+        // function signup(email, password, nickname){
+        //     $.ajax({
+        //         type: 'post',
+        //         data: {email, password, nickname},
+        //         dataType: JSON,
+        //         success: function(result){
+        //             location.href = "/";
+        //         }
+        //     })
+        // }
         $('.signup_form').submit(function(e){
+            
             let email = $('#email').val();
             let password = $('#password').val();
             let password2 = $('#password2').val();
             let nickname = $('#nickname').val();
+            console.log(password, password2);
             if(password !== password2) {
                 e.preventDefault();
                 return alert("비밀번호가 다릅니다.");
             }
-            signup(email, password, nickname);
 
         })
     </script>

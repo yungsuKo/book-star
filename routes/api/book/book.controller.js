@@ -64,10 +64,9 @@ exports.getBookList = async (req, res) => {
 
 exports.getBookSearchList = async (req, res) => {
     const getData = async () => {
-        let searchKeyword = req.query.search_keyword;
-        console.log("searchlist is running");
-
         try{
+            let searchKeyword = req.query.search_keyword;
+            console.log("searchlist is running", searchKeyword);
             let items;
             try{
                 let options = {

@@ -14,7 +14,8 @@ app.use(express.urlencoded());
 // Parse JSON bodies (as sent by API clients)
 app.use(express.json());
 app.use(express.static('public'));
-app.use('/api', require('./routes/api'))
+
+app.use('/api', require('./routes/api'));
 app.use('/', require('./routes/controller/home.controller'));
 app.use('/book', require('./routes/controller/book.controller'));
 app.use('/user', require('./routes/controller/user.controller'));
