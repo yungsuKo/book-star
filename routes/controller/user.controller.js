@@ -31,6 +31,9 @@ router.post('/signup', async (req, res, next)=>{
 })
 
 router.get('/login', (req, res)=>{
+    if(req.cookies.email){
+        res.locals.isLogin = true;
+    }
     res.locals.isLogin = false;
     res.render('login');
 })
@@ -48,9 +51,12 @@ router.post('/login', async (req, res, next)=>{
             retryStrategy: request.RetryStrategies.HTTPOrNetworkError
         }
         result = await request(options);
-        console.log(result.body.data);
         user = result.body.data;
-        res.cookie('jwt', result.body.token)
+        res.cookie("token",result.body.token,
+            {
+                httpOnly: true, maxAge: 1000 * 10
+            }
+        )
         res.redirect("/");
     }catch(err){
         console.log(err);

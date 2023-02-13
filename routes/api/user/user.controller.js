@@ -41,7 +41,7 @@ exports.login = async (req, res) => {
                 email
             })
             const loginUserToken = jwt.sign({email}, process.env.JWT_SECRET,{
-                expiresIn : 10,
+                expiresIn : 10000,
             })
             res.json({
                 status : {

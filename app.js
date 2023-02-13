@@ -1,6 +1,7 @@
 const path = require('path')
 const express = require('express');
-const bodyParser = require('body-parser')
+const authMiddleware = require('./middlewares/jwt');
+const cookieParser = require('cookie-parser')
 const app = express();
 const db = require('./db');
 require('dotenv').config();
@@ -12,6 +13,8 @@ app.set("views", path.join(__dirname, "views"));
 // Parse URL-encoded bodies (as sent by HTML forms)
 app.use(express.urlencoded());
 // Parse JSON bodies (as sent by API clients)
+app.use(cookieParser());
+app.use(authMiddleware);
 app.use(express.json());
 app.use(express.static('public'));
 

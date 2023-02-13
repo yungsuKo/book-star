@@ -5,6 +5,7 @@ const router = express();
 router.get('/', async(req, res, next) => {
     let result;
     try{
+        console.log("req.cookies : ",req.cookies)
         let options = {
             url: `http://127.0.0.1:3000/api/book`,
             method: 'GET',
@@ -18,7 +19,7 @@ router.get('/', async(req, res, next) => {
     }catch(error){
         console.log(error);
     }
-    res.locals.isLogin = false;
+    req.cookies.email? res.locals.isLogin = true:res.locals.isLogin = false;
     res.render('home', {
         items
     })
