@@ -3,7 +3,6 @@ const request = require('requestretry');
 const router = express();
 
 router.get('/signup', (req, res)=>{
-    res.locals.isLogin = false;
     res.render('signup');
 })
 router.post('/signup', async (req, res, next)=>{
@@ -31,10 +30,6 @@ router.post('/signup', async (req, res, next)=>{
 })
 
 router.get('/login', (req, res)=>{
-    if(req.cookies.email){
-        res.locals.isLogin = true;
-    }
-    res.locals.isLogin = false;
     res.render('login');
 })
 router.post('/login', async (req, res, next)=>{
@@ -54,7 +49,7 @@ router.post('/login', async (req, res, next)=>{
         user = result.body.data;
         res.cookie("token",result.body.token,
             {
-                httpOnly: true, maxAge: 1000 * 10
+                httpOnly: true, expires: new Date(Date.now() + 5000)
             }
         )
         res.redirect("/");

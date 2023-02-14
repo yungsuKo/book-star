@@ -20,7 +20,6 @@ router.get('/:id', async(req, res, next) => {
     }catch(error){
         console.log(error);
     }
-    res.locals.isLogin = false;
     res.render('bookDetail',{
         item : result.body.data
     })

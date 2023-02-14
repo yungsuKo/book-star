@@ -19,7 +19,6 @@ router.get('/', async(req, res, next) => {
     }catch(error){
         console.log(error);
     }
-    req.cookies.email? res.locals.isLogin = true:res.locals.isLogin = false;
     res.render('home', {
         items
     })

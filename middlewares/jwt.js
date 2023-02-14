@@ -15,12 +15,15 @@ function decodeToken(token) {
 const authMiddleware = async(req, res, next) => {
     const {token} = req.cookies;
     if(!token){
+        res.locals.isLogin = false;
         return next();
     }
     try{
         const user = await decodeToken(token);
-        console.log(user);
-        res.cookie('email',user.uid,{ expires: new Date(Date.now() + 5000), path: '/'});
+        res.locals.isLogin = true;
+
+        res.cookie('email',user.email,{ expires: new Date(Date.now() + 5000), path: '/'});
+        res.cookie('token',token,{ expires: new Date(Date.now() + 5000), path: '/'});
         next();
     }catch(err){
         console.log(err);
