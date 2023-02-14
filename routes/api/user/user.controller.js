@@ -1,5 +1,6 @@
 const User = require('../../../models/User');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 exports.signup = async (req, res) => {
     const createUser = async () => {    
@@ -23,7 +24,7 @@ exports.signup = async (req, res) => {
             return res.json({
                 status : {
                     code : 401,
-                    message: 'ì¤‘ë³µëœ íšŒì›ê°€ì…'
+                    message: 'ÀÌ¹Ì Á¸ÀçÇÏ´Â È¸¿øÀÔ´Ï´Ù.'
                 },
             });
         }catch(err){
@@ -40,8 +41,10 @@ exports.login = async (req, res) => {
             const user = await User.find({
                 email
             })
+            // È¸¿øÀÇ Á¸Àç ¿©ºÎ¸¦ È®ÀÎÇÏ´Â ·ÎÁ÷ ÇÊ¿ä
+            // È¸¿øÀÇ ¾ÏÈ£È­µÈ ºñ¹Ğ¹øÈ£¸¦ ÀÎÁõÇÏ´Â °úÁ¤ ÇÊ¿ä
             const loginUserToken = jwt.sign({email}, process.env.JWT_SECRET,{
-                expiresIn : 10000,
+                expiresIn : 1000*60*60,
             })
             res.json({
                 status : {

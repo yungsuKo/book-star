@@ -22,8 +22,8 @@ const authMiddleware = async(req, res, next) => {
         const user = await decodeToken(token);
         res.locals.isLogin = true;
 
-        res.cookie('email',user.email,{ expires: new Date(Date.now() + 5000), path: '/'});
-        res.cookie('token',token,{ expires: new Date(Date.now() + 5000), path: '/'});
+        res.cookie('email',user.email,{ expires: new Date(Date.now() + 1000*60*60), path: '/'});
+        res.cookie('token',token,{ expires: new Date(Date.now() + 1000*60*60), path: '/'});
         next();
     }catch(err){
         console.log(err);
