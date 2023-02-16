@@ -30,7 +30,9 @@ router.post('/signup', async (req, res, next)=>{
 })
 
 router.get('/login', (req, res)=>{
-    res.render('login');
+    res.render('login',{
+        errorMsg: ""
+    });
 })
 router.post('/login', async (req, res, next)=>{
     let result;
@@ -46,13 +48,23 @@ router.post('/login', async (req, res, next)=>{
             retryStrategy: request.RetryStrategies.HTTPOrNetworkError
         }
         result = await request(options);
-        user = result.body.data;
-        res.cookie("token",result.body.token,
-            {
-                httpOnly: true, expires: new Date(Date.now() + 5000)
-            }
-        )
-        res.redirect("/");
+        const {code, message} = result.body.status;
+        console.log(code)
+        if(code === 200){
+            user = result.body.data;
+            res.cookie("token", result.body.token,
+                {
+                    httpOnly: true, expires: new Date(Date.now() + 5000)
+                }
+            );
+            res.redirect("/");
+        }
+        else if(code === 401){
+            res.render("login", {
+                errorMsg : message
+            });
+        }
+        
     }catch(err){
         console.log(err);
     }

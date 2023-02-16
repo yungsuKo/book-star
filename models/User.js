@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 const userSchema = new mongoose.Schema({
     email : String,
@@ -7,12 +8,19 @@ const userSchema = new mongoose.Schema({
     nickname : String
 });
 
-userSchema.pre('save' , async (next)=>{
-    const user = this;
-    console.log(user);
-    // this를 못가져오고 있는중
-    if(this.$isNew){
-        console.log('비밀번호가 변경됩니다.')
+userSchema.pre('save' , async function(next){
+    try{
+        const user = this;
+        if(user.isModified('password')){
+            console.log('비밀번호가 변경됩니다.');
+            const hash = await bcrypt.hash(user.password, saltRounds);
+            user.password = hash;
+            console.log(user)
+            
+        }
+    }
+    catch(err){
+        console.log(err);
     }
 })
 

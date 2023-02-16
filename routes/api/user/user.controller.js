@@ -24,7 +24,7 @@ exports.signup = async (req, res) => {
             return res.json({
                 status : {
                     code : 401,
-                    message: 'ÀÌ¹Ì Á¸ÀçÇÏ´Â È¸¿øÀÔ´Ï´Ù.'
+                    message: 'ì´ë¯¸ ì¡´ì¬í•˜ëŠ” ì•„ì´ë”” ì…ë‹ˆë‹¤.'
                 },
             });
         }catch(err){
@@ -37,23 +37,45 @@ exports.signup = async (req, res) => {
 exports.login = async (req, res) => {
     const loginUser = async () => {    
         try{
-            const { email } = req.body;
+            const { email, password } = req.body;
             const user = await User.find({
                 email
             })
-            // È¸¿øÀÇ Á¸Àç ¿©ºÎ¸¦ È®ÀÎÇÏ´Â ·ÎÁ÷ ÇÊ¿ä
-            // È¸¿øÀÇ ¾ÏÈ£È­µÈ ºñ¹Ğ¹øÈ£¸¦ ÀÎÁõÇÏ´Â °úÁ¤ ÇÊ¿ä
-            const loginUserToken = jwt.sign({email}, process.env.JWT_SECRET,{
-                expiresIn : 1000*60*60,
-            })
-            res.json({
-                status : {
-                    code : 200,
-                    message: 'success'
-                },
-                data: user[0],
-                token: loginUserToken,
-            });
+            // ìœ ì €ê°€ ì¡´ì¬í•˜ëŠ”ì§€ 
+            // ì¡´ì¬í•œë‹¤ë©´ ë¹„ë°€ë²ˆí˜¸ compare
+            console.log(user);
+            if(user.length===0) {
+                return res.json({
+                    status : {
+                        code : 401,
+                        message: 'ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ê³„ì •ì…ë‹ˆë‹¤.'
+                    }
+                })
+            }else{
+                const match = bcrypt.compare(password, user[0].password);
+                if(match){
+                    const loginUserToken = jwt.sign({email}, process.env.JWT_SECRET,{
+                        expiresIn : 1000*60*60,
+                    })
+                    res.json({
+                        status : {
+                            code : 200,
+                            message: 'success'
+                        },
+                        data: user[0],
+                        token: loginUserToken,
+                    });
+                }else{
+                    // ì‹¤ì œ ë¡œê·¸ì¸ì—ì„œëŠ” í•´í‚¹ì˜ ìš°ë ¤ê°€ ìˆì–´ ì´ëŸ°ì‹ìœ¼ë¡œ ë¡œê·¸ì¸ ì‹¤íŒ¨ë¥¼ ì•Œë ¤ì£¼ì§€ëŠ” ì•ŠëŠ”ë‹¤.
+                    return res.json({
+                        status : {
+                            code : 401,
+                            message: 'ë¹„ë°€ë²ˆí˜¸ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.'
+                        }
+                    })
+                }
+                
+            }
         }catch(err){
             console.log(err);
         }

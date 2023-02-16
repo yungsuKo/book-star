@@ -5,6 +5,7 @@ const router = express();
 
 router.get('/:id', async(req, res, next) => {
     let result;
+    let item;
     try{
         let options = {
             url: `http://127.0.0.1:3000/api/book/${req.params.id}`,
@@ -15,13 +16,13 @@ router.get('/:id', async(req, res, next) => {
             retryStrategy: request.RetryStrategies.HTTPOrNetworkError
         }
         result = await request(options);
-        console.log(result.body.data)
-        
+        item = result.body.data;
+        console.log(item);
     }catch(error){
         console.log(error);
     }
     res.render('bookDetail',{
-        item : result.body.data
+        item
     })
 })
 
