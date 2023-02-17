@@ -16,7 +16,15 @@
             <div class="heart-btn">♡</div>
         </div>
         <img src=<%= item.image._text %>/>
-        <img src=<%= item.description._text %>/>
+        <div>
+            <%= item.description._text %>
+        </div>
+        <div>
+            <%= item.description._text %>
+        </div>
+        <div>
+            <%= item.description._text %>
+        </div>
         <div class="modal_background unshow">
             <div class="modal_box">
                 <div class="modal_box-close">X</div>
@@ -28,9 +36,10 @@
         </div>
     </main>
     <script>
-        let isLogin = false;
         $('.heart-btn').click(function(e){
             e.preventDefault();
+            let email = $.cookie('email');
+            console.log(email);
             if(isLogin){
                 console.log('감사');
             }else{

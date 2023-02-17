@@ -6,6 +6,7 @@ exports.signup = async (req, res) => {
     const createUser = async () => {    
         try{
             const {email, password, nickname} = req.body;
+            console.log(email)
             const exist = await User.exists({email: email});
             console.log(exist);
             if(!exist){
@@ -81,4 +82,15 @@ exports.login = async (req, res) => {
         }
     }
     await loginUser();
+}
+
+exports.logout = async (req, res) => {
+    const logoutUser = async () => {    
+        try{
+            res.clearCookie('token').redirect("/");
+        }catch(err){
+            console.log(err);
+        }
+    }
+    await logoutUser();
 }
