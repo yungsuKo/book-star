@@ -69,5 +69,27 @@ router.post('/login', async (req, res, next)=>{
         console.log(err);
     }
 })
+router.get("/logout", async (req, res)=>{
+    let result;
+    try{
+        let options = {
+            url: "http://127.0.0.1:3000/api/user/logout",
+            method: "post",
+            json: true,
+            maxAttempts: 2,
+            form: req.body,
+            retryDelay: 500,
+            retryStrategy: request.RetryStrategies.HTTPOrNetworkError
+        }
+        result = await request(options);
+        let {status:{code}} = result.body;
+        if(code === 200){
+            res.clearCookie().redirect("/");
+        }
+        
+    }catch(err){
+        console.log(err);
+    }
+})
 
 module.exports = router;

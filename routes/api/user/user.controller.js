@@ -87,7 +87,15 @@ exports.login = async (req, res) => {
 exports.logout = async (req, res) => {
     const logoutUser = async () => {    
         try{
-            res.clearCookie('token').redirect("/");
+            console.log("i'm in logout api", req)
+
+            res.json({
+                status : {
+                    code: 200,
+                    message : "로그아웃이 처리 시작!."
+                }
+            });
+            
         }catch(err){
             console.log(err);
         }
