@@ -1,5 +1,7 @@
 const request = require('requestretry');
 const convert = require('xml-js');
+const SavedBook = require('../../../models/SavedBook');
+const User = require('../../../models/User');
 
 exports.getBookList = async (req, res) => {
     const getData = async (req) => {
@@ -184,4 +186,53 @@ exports.getBookDetail = async (req, res) => {
         });
     }
     await getData();
+}
+
+exports.postBookSave = async (req, res) => {
+    const postData = async () => {
+        const id = req.params.id;
+        const email = req.body.email;
+        try{
+            const user = await User.find({email});
+            try{
+                let book = await SavedBook.create({
+                    isbn: id,
+                    uid: user._id,
+                    use_yn: 'y'
+                })
+                return res.json({
+                    status: {
+                        code: 200
+                    }
+                })
+            }catch(error){
+                console.log(error);
+            }
+        }catch(err){
+            onError(err);
+        }
+    }
+    // error occured
+    const onError = (error) => {
+        res.status(400).json({
+            status : {
+                code : 400,
+                message: error.name==='logic'?error.message:''
+            },
+            items : [
+                {
+                    title: '',
+                    link: '',
+                    image: '',
+                    author:'',
+                    discount: '',
+                    publisher: '',
+                    pubdate: '',
+                    isbn : '',
+                    description: ''
+                }
+            ]
+        });
+    }
+    await postData();
 }

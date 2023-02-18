@@ -1,49 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/scss/output/style.css">
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <title>Document</title>
-</head>
-<body>
-    <main>
-        <%- include('./part/header') %>
-        sign up page
-        <form class="signup_form" method="post">
-            <input id="email" type="email" name="email" placeholder="Email"/>
-            <input id="password" type="password" name="password" placeholder="Password"/>
-            <input id="password2" type="password" name="password2" placeholder="Password Check"/>
-            <input id="nickname" type="text" name="nickname" placeholder="Nickname"/>
-            <button id="signup">회원가입</button>
-        </form>
-    </main>
-    <script>
-        // function signup(email, password, nickname){
-        //     $.ajax({
-        //         type: 'post',
-        //         data: {email, password, nickname},
-        //         dataType: JSON,
-        //         success: function(result){
-        //             location.href = "/";
-        //         }
-        //     })
-        // }
-        $('.signup_form').submit(function(e){
-            
-            let email = $('#email').val();
-            let password = $('#password').val();
-            let password2 = $('#password2').val();
-            let nickname = $('#nickname').val();
-            console.log(password, password2);
-            if(password !== password2) {
-                e.preventDefault();
-                return alert("비밀번호가 다릅니다.");
-            }
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="/scss/output/style.css" />
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+		<title>Document</title>
+	</head>
+	<body>
+		<main>
+			<%- include('./part/header') %> sign up page
+			<form class="signup_form" method="post">
+				<input
+					id="email"
+					type="email"
+					name="email"
+					placeholder="Email"
+				/>
+				<input
+					id="password"
+					type="password"
+					name="password"
+					placeholder="Password"
+				/>
+				<input
+					id="password2"
+					type="password"
+					name="password2"
+					placeholder="Password Check"
+				/>
+				<input
+					id="nickname"
+					type="text"
+					name="nickname"
+					placeholder="Nickname"
+				/>
+				<input type="submit" id="signup"/>
+			</form>
 
-        })
-    </script>
-</body>
+			<div class="bot_login_btn">
+				<a href="login">이미 계정이 있다면?</a>
+			</div>
+		</main>
+		<script>
+			// function signup(email, password, nickname){
+			//     $.ajax({
+			//         type: 'post',
+			//         data: {email, password, nickname},
+			//         dataType: JSON,
+			//         success: function(result){
+			//             location.href = "/";
+			//         }
+			//     })
+			// }
+			$(".signup_form").submit(function (e) {
+				let email = $("#email").val();
+				let password = $("#password").val();
+				let password2 = $("#password2").val();
+				let nickname = $("#nickname").val();
+				console.log(password, password2);
+				if (password !== password2) {
+					e.preventDefault();
+					return alert("비밀번호가 다릅니다.");
+				}
+			});
+		</script>
+	</body>
 </html>
