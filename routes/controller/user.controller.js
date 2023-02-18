@@ -84,7 +84,7 @@ router.get("/logout", async (req, res)=>{
         result = await request(options);
         let {status:{code}} = result.body;
         if(code === 200){
-            res.clearCookie().redirect("/");
+            res.clearCookie('token').clearCookie('email').redirect("/");
         }
         
     }catch(err){

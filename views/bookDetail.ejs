@@ -15,6 +15,7 @@
         <%- include('./part/header') %>
         <div class="book_info-short">
             <%= item.title._text%>
+            <!-- heart 여부에 따라 값을 노출되는 버튼이 달라짐 -->
             <div class="heart-btn" data-isbn=<%= item.isbn._text %>>♡</div>
         </div>
         <img src=<%= item.image._text %>/>
@@ -34,9 +35,11 @@
     <script>
         let email = $.cookie('email');
         let isLogin = email? true:false;
+        
         $('.heart-btn').click(function(e){
             e.preventDefault();    
-            if(isLogin){
+            if($('.heart-btn').text() === '♡'){
+                if(isLogin){
                 console.log('감사');
                 let isbn = e.target.getAttribute('data-isbn');
                 let sendData = {email};
@@ -49,19 +52,24 @@
                         success: function(result){
                             console.log(result);
                             $('.heart-btn').text('♥');
-                        }
-                    })
+                            }
+                        })
                 }catch(err){
                     console.log(err)
                 }                
-                // db에 나만의 책목록 만들기
-                // 프론트에서는 좋아요 표시 처리
-                // 팝업으로 좋아하는 책으로 등록되었습니다.(뜨고 사라지기)
-            }else{
-                $('.modal_background').removeClass('unshow');
-                $('.modal_background').addClass('show');
+                    // db에 나만의 책목록 만들기
+                    // 프론트에서는 좋아요 표시 처리
+                    // 팝업으로 좋아하는 책으로 등록되었습니다.(뜨고 사라지기)
+                }else{
+                    $('.modal_background').removeClass('unshow');
+                    $('.modal_background').addClass('show');
+                }
+            }else if($('.heart-btn').text() === '♥'){
+                $('.heart-btn').text('♡');
             }
+            
         })
+        
         $('.modal_box-close').click(function(e){
             e.preventDefault();
             $('.modal_background').removeClass('show');
