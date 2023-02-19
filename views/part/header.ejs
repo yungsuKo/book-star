@@ -1,16 +1,18 @@
 <header>
 	<div class="menu_btn">메뉴</div>
-	<div class="menu_open unshow">
-		<div class="menu_open-top">
-			<div class="menu_open-title">메뉴</div>
-			<div class="menu_open-close">X</div>
+	<div class="menu_open-background unshow">
+		<div class="menu_open">
+			<div class="menu_open-top">
+				<div class="menu_open-title">메뉴</div>
+				<div class="menu_open-close">X</div>
+			</div>
+			<ul>
+				<li>1</li>
+				<li>1</li>
+				<li>1</li>
+				<li>1</li>
+			</ul>
 		</div>
-		<ul>
-			<li>1</li>
-			<li>1</li>
-			<li>1</li>
-			<li>1</li>
-		</ul>
 	</div>
 	<a href="/">
 		<div class="logo_btn">🕮</div>
@@ -26,10 +28,10 @@
 	<% } %>
 	<script>
 		$('.menu_btn').click(function(e){
-			$('.menu_open').toggleClass('unshow');
+			$('.menu_open-background').toggleClass('unshow');
 		})
 		$('.menu_open-close').click(function(e){
-			$('.menu_open').toggleClass('unshow');
+			$('.menu_open-background').toggleClass('unshow');
 		})
 	</script>
 </header>
