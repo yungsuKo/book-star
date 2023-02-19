@@ -1,6 +1,20 @@
 <header>
 	<div class="menu_btn">메뉴</div>
-	<div class="logo_btn">🕮</div>
+	<div class="menu_open unshow">
+		<div class="menu_open-top">
+			<div class="menu_open-title">메뉴</div>
+			<div class="menu_open-close">X</div>
+		</div>
+		<ul>
+			<li>1</li>
+			<li>1</li>
+			<li>1</li>
+			<li>1</li>
+		</ul>
+	</div>
+	<a href="/">
+		<div class="logo_btn">🕮</div>
+	</a>
 	<% if(isLogin){ %>
 		<a href="/user/logout">
 			<div class="logout_btn">로그아웃</div>
@@ -10,4 +24,12 @@
 			<div class="login_btn">회원가입</div>
 		</a>
 	<% } %>
+	<script>
+		$('.menu_btn').click(function(e){
+			$('.menu_open').toggleClass('unshow');
+		})
+		$('.menu_open-close').click(function(e){
+			$('.menu_open').toggleClass('unshow');
+		})
+	</script>
 </header>

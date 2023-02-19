@@ -195,9 +195,6 @@ exports.postBookSave = async (req, res) => {
         try{
             const user = await User.findOne({email});
             try{
-                // 일단 db내에 유저&&동일저장 책 내용이 있는지 검토
-                // 있다면 use_yn값 업데이트
-                // 없으면 새로 생성
                 const exist = await SavedBook.findOne({uid: user._id, isbn: id});
                 if(!exist){
                     let book = await SavedBook.create({

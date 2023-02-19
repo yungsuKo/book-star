@@ -263,4 +263,19 @@ form {
 .bot_login_btn {
   margin-top: 20px;
 }
+
+.menu_open {
+  position: absolute;
+  width: 200px;
+  background-color: white;
+}
+
+.menu_open-top {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
 /*# sourceMappingURL=style.css.map */
