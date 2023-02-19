@@ -20,6 +20,12 @@ img{
     top:0; left: 0; bottom: 0; right: 0;
     background: rgba(0, 0, 0, 0.8);
 }
+
+.modal_background_save{
+    position: fixed;
+    top:0; left: 0; bottom: 0; right: 0;
+    background: rgba(0, 0, 0, 0.8);
+}
    
 /* 모달창 영역을 꾸민다 */
 .modal_box{
@@ -54,4 +60,37 @@ img{
     flex-direction: column;
     justify-content: center;
     background-color: aqua;
+}
+
+.star {
+    position: relative;
+    font-size: 2rem;
+    color: #ddd;
+    margin: 0 auto;
+    display: block;
+}
+  
+.star input {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.star span {
+    width: 0;
+    position: absolute; 
+    top: 0;
+    left: 0;
+    color: red;
+    overflow: hidden;
+    pointer-events: none;
+    
+}
+.book_comment-save{
+    float: right;
 }

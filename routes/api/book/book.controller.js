@@ -193,24 +193,100 @@ exports.postBookSave = async (req, res) => {
         const id = req.params.id;
         const email = req.body.email;
         try{
-            const user = await User.find({email});
+            const user = await User.findOne({email});
             try{
-                let book = await SavedBook.create({
-                    isbn: id,
-                    uid: user._id,
-                    use_yn: 'y'
-                })
-                return res.json({
-                    status: {
-                        code: 200
-                    }
-                })
+                // 일단 db내에 유저&&동일저장 책 내용이 있는지 검토
+                // 있다면 use_yn값 업데이트
+                // 없으면 새로 생성
+                const exist = await SavedBook.findOne({uid: user._id, isbn: id});
+                if(!exist){
+                    let book = await SavedBook.create({
+                        isbn: id,
+                        uid: user._id,
+                        use_yn: 'y'
+                    })
+                    console.log(book);
+                    return res.json({
+                        status: {
+                            code: 200
+                        }
+                    })
+                }else{
+                    let updatedBook = await SavedBook.findOneAndUpdate({
+                        isbn: id,
+                        uid: user._id,
+                    }, {
+                        use_yn: 'y',
+                        update_dt : new Date(Date.now())
+                    },{
+                        new: true
+                    })
+                    console.log("updatedBook", updatedBook.use_yn);
+                    return res.json({
+                        status: {
+                            code: 200
+                        }
+                    })
+                }
+                
             }catch(error){
                 console.log(error);
             }
         }catch(err){
             onError(err);
         }
+    }
+    // error occured
+    const onError = (error) => {
+        res.status(400).json({
+            status : {
+                code : 400,
+                message: error.name==='logic'?error.message:''
+            },
+            items : [
+                {
+                    title: '',
+                    link: '',
+                    image: '',
+                    author:'',
+                    discount: '',
+                    publisher: '',
+                    pubdate: '',
+                    isbn : '',
+                    description: ''
+                }
+            ]
+        });
+    }
+    await postData();
+}
+
+exports.postBookUnsave = async (req, res) => {
+    const postData = async () => {
+        const id = req.params.id;
+        const email = req.body.email;
+        try{
+            const user = await User.findOne({email});
+            let updatedBook = await SavedBook.findOneAndUpdate({
+                isbn: id,
+                uid: user._id,
+            }, {
+                use_yn: 'n',
+                update_dt : new Date(Date.now())
+            },{
+                new: true
+            })
+            console.log("updatedBook", updatedBook);
+            return res.json({
+                status: {
+                    code: 200
+                }
+            })
+        }
+        catch(error){
+            console.log(error);
+        }
+        
     }
     // error occured
     const onError = (error) => {
