@@ -92,4 +92,9 @@ router.get("/logout", async (req, res)=>{
     }
 })
 
+router.get("/mypage", async (req, res)=>{
+    let result;
+    res.render("mypage",{})
+})
+
 module.exports = router;
