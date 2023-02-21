@@ -94,7 +94,25 @@ router.get("/logout", async (req, res)=>{
 
 router.get("/mypage", async (req, res)=>{
     let result;
-    res.render("mypage",{})
+    let sendData = {
+        email: req.cookies.email
+    }
+    try{
+        let options = {
+            url: "http://127.0.0.1:3000/api/user/mybooks",
+            method: "get",
+            json: true,
+            maxAttempts: 2,
+            form: sendData,
+            retryDelay: 500,
+            retryStrategy: request.RetryStrategies.HTTPOrNetworkError
+        }
+        result = await request(options);
+        const items = result.body;
+        res.render("mypage",{items})
+    }catch(err){
+        console.log(err)
+    }
 })
 
 module.exports = router;

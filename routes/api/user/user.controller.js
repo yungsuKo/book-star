@@ -1,4 +1,5 @@
 const User = require('../../../models/User');
+const SavedBook = require('../../../models/SavedBook');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
@@ -99,4 +100,13 @@ exports.logout = async (req, res) => {
         }
     }
     await logoutUser();
+}
+
+exports.mybooks = async (req, res, next) => {
+    const {email} = req.body;
+    const getBooks = async () => {
+        const books = await SavedBook.find({email, use_yn:'y'});
+        return res.json(books)
+    }
+    await getBooks();
 }

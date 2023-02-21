@@ -11,11 +11,24 @@
 <body>
     <main>
         <%- include('./part/header') %>
-        <div class="home_banner">
-            마이페이지입니다.
+        <h1>마이페이지입니다.</h1>
+            
+        <div class="book_list">
+            <% for(let i=0; i<items.length; i++){ %>
+                <!-- 이미지, 제목, 코멘트.. -->
+                <a class="book_item" href=<%=`/book/${items[i].isbn}` %>>
+                    <div class="book_item-img">
+                        <img src=<%=items[i].image %>/>
+                    </div>
+                    <div class="book_item-title">
+                        <%=items[i].title %>
+                    </div>
+                    <div class="book_item-author">
+                        <%=items[i].author %>
+                    </div>
+                </a>
+            <%} %>
         </div>
-        
-
     </main>
 </body>
 </html>

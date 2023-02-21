@@ -97,7 +97,6 @@
 							contentType: "application/json",
 							data: JSON.stringify(sendData),
 							success: function (result) {
-								console.log(result.status);
 								$(".heart-btn").text("♡");
 								
 							},
@@ -122,7 +121,6 @@
 						contentType: "application/json",
 						data: JSON.stringify(sendData),
 						success: function (result) {
-							console.log(result);
 							$(".heart-btn").text("♥");
 							$(".modal_background_save").removeClass("show");
 							$(".modal_background_save").addClass("unshow");
@@ -135,7 +133,6 @@
 			// 프론트에서는 좋아요 표시 처리
 			// 팝업으로 좋아하는 책으로 등록되었습니다.(뜨고 사라지기)
 			})
-				
 			
 			$(".modal_box-close").click(function (e) {
 				e.preventDefault();
