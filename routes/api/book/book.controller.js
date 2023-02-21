@@ -148,13 +148,13 @@ exports.getBookDetail = async (req, res) => {
                 }
                 let result = await request(options);
                 item = convert.xml2json(result.body, {compact: true, spaces: 4});
-                item = JSON.parse(item);
+                item = JSON.parse(item).rss.channel.item;
                 res.json({
                     status : {
                         code : 200,
                         message: 'success'
                     },
-                    data : item.rss.channel.item,
+                    data : item,
                 });
             }catch(error){
                 console.log(error);
@@ -190,8 +190,9 @@ exports.getBookDetail = async (req, res) => {
 
 exports.postBookSave = async (req, res) => {
     const postData = async () => {
-        const id = req.params.id;
-        const email = req.body.email;
+        const {id} = req.params;
+        const {email, comment, rating} = req.body;
+
         try{
             const user = await User.findOne({email});
             try{
@@ -200,6 +201,8 @@ exports.postBookSave = async (req, res) => {
                     let book = await SavedBook.create({
                         isbn: id,
                         uid: user._id,
+                        comment,
+                        rating,
                         use_yn: 'y'
                     })
                     console.log(book);
@@ -264,6 +267,7 @@ exports.postBookUnsave = async (req, res) => {
         const email = req.body.email;
         try{
             const user = await User.findOne({email});
+            console.log(user)
             let updatedBook = await SavedBook.findOneAndUpdate({
                 isbn: id,
                 uid: user._id,

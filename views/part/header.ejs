@@ -10,9 +10,11 @@
 				<a href="/">
 					<li>검색</li>
 				</a>
-				<a href="/user/mypage">
-					<li>마이페이지</li>
-				</a>
+				<%if(isLogin){%>
+					<a href="/user/mypage">
+						<li>마이페이지</li>
+					</a>
+				<%}%>
 			</ul>
 		</div>
 	</div>

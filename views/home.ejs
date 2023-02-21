@@ -36,21 +36,24 @@
     </main>
 
     <script>
-        let detachedBookItem = $('.book_list a').eq(0).detach();
-        console.log(detachedBookItem.find('.book_item-title').text())
+        
+        
         function loadBooks(keyword){
             console.log(keyword)
+            let detachedBookItem = $('.book_list a').eq(0).detach();
+            console.log(detachedBookItem.html())
             $.ajax({
                 type: 'get',
                 url: `/api/book/search?search_keyword=${keyword}`,
                 success : function(result){
                     $('.book_list').empty();
                     const data = result.data;
-                    console.log("result : ", result);
+                    
                     for(let i = 0; i<data.length; i++){
                         let bookData = data[i];
                         let clone = detachedBookItem.clone();
                         clone.find('.book_item-img img').attr("src", `${bookData.image}`);
+                        clone.attr('href', `/book/${bookData.isbn}`)
                         clone.find('.book_item-title').text(bookData.title);
                         clone.find('.book_item-author').text(bookData.author);
                         $('.book_list').append(clone);

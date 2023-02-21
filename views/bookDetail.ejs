@@ -19,7 +19,11 @@
 			<div class="book_info-short">
 				<%= item.title._text%>
 				<!-- heart 여부에 따라 값을 노출되는 버튼이 달라짐 -->
-				<div class="heart-btn" data-isbn=<%=item.isbn._text %>>♡</div>
+				<%if(exist){%>
+					<div class="heart-btn" data-isbn=<%=item.isbn._text %>>♥</div>
+				<%}else{%>
+					<div class="heart-btn" data-isbn=<%=item.isbn._text %>>♡</div>
+				<%}%>
 			</div>
 			<img src=<%=item.image._text %>/>
 			<div>
@@ -48,6 +52,7 @@
 							<span>★★★★★</span>
 							<input
 								type="range"
+								class="rating"
 								oninput="drawStar(this)"
 								value="1"
 								step="1"
@@ -55,8 +60,8 @@
 								max="10"
 							/>
 						</span>
-						<input />
-                        <button class="book_comment-save">저장</button>
+						<input placeholder="comment" class="comment"/>
+                        <button class="book_comment-save" data-isbn=<%=item.isbn._text %>>저장</button>
 					</div>
 				</div>
 			</div>
@@ -69,59 +74,75 @@
 					target.value * 10
 				}%`;
 			};
-			$(".heart-btn").click(function (e) {
-				e.preventDefault();
-                if (isLogin) {
-                    let isbn = e.target.getAttribute("data-isbn");
-                    let sendData = { email };
-                    if ($(".heart-btn").text() === "♡") {
-                        console.log("감사");
-                        try {
-                            $.ajax({
-                                url: `/book/save/${isbn}`,
-                                type: "post",
-                                contentType: "application/json",
-                                data: JSON.stringify(sendData),
-                                success: function (result) {
-                                    console.log(result);
-                                    $(".heart-btn").text("♥");
-                                    $(".modal_background_save").removeClass(
-                                        "unshow"
-                                    );
-                                    $(".modal_background_save").addClass(
-                                        "show"
-                                    );
-                                },
-                            });
-                        } catch (err) {
-                            console.log(err);
-                        }
-                        // db에 나만의 책목록 만들기
-                        // 프론트에서는 좋아요 표시 처리
-                        // 팝업으로 좋아하는 책으로 등록되었습니다.(뜨고 사라지기)
-				    } else if ($(".heart-btn").text() === "♥") {
-                        try {
-                            $.ajax({
-                                url: `/book/unsave/${isbn}`,
-                                type: "post",
-                                contentType: "application/json",
-                                data: JSON.stringify(sendData),
-                                success: function (result) {
-                                    console.log(result.status);
-                                    $(".heart-btn").text("♡");
-                                },
-                            });
-                        } catch (err) {
-                            console.log(err);
-                        }
-					    
-				    }
-                } else {
-                    $(".modal_background").removeClass("unshow");
-                    $(".modal_background").addClass("show");
-                }
-            });
 
+			let sendData = { email };
+			
+			
+			$(".heart-btn").click(function(e){
+				let isbn = $(".heart_btn").attr("data-isbn");
+				if ($(".heart-btn").text() === "♡") {
+					if (isLogin) {
+						$(".modal_background_save").removeClass(
+							"unshow"
+						);
+						$(".modal_background_save").addClass(
+							"show"
+						);
+					}else {
+						$(".modal_background").removeClass("unshow");
+						$(".modal_background").addClass("show");
+					};
+				}else if ($(".heart-btn").text() === "♥") {
+					try {
+						$.ajax({
+							url: `/book/unsave/${isbn}`,
+							type: "post",
+							contentType: "application/json",
+							data: JSON.stringify(sendData),
+							success: function (result) {
+								console.log(result.status);
+								$(".heart-btn").text("♡");
+							},
+						});
+					} catch (err) {
+						console.log(err);
+					}
+				}
+
+			});
+			$(".book_comment-save").click(function (e) {
+				e.preventDefault();
+				let isbn = $(".book_comment-save").attr("data-isbn");
+				let comment = $('.comment').val();
+				let rating = $('.rating').val();
+				sendData = { email, comment, rating };
+				console.log("감사");
+				try {
+					$.ajax({
+						url: `/book/save/${isbn}`,
+						type: "post",
+						contentType: "application/json",
+						data: JSON.stringify(sendData),
+						success: function (result) {
+							console.log(result);
+							$(".heart-btn").text("♥");
+							$(".modal_background_save").removeClass(
+								"unshow"
+							);
+							$(".modal_background_save").addClass(
+								"show"
+							);
+						},
+					});
+				} catch (err) {
+					console.log(err);
+				}
+			// db에 나만의 책목록 만들기
+			// 프론트에서는 좋아요 표시 처리
+			// 팝업으로 좋아하는 책으로 등록되었습니다.(뜨고 사라지기)
+			})
+				
+			
 			$(".modal_box-close").click(function (e) {
 				e.preventDefault();
 				$(".modal_background").removeClass("show");
