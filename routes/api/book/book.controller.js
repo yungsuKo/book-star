@@ -216,6 +216,10 @@ exports.postBookSave = async (req, res) => {
                         isbn: id,
                         uid: user._id,
                     }, {
+                        isbn: id,
+                        uid: user._id,
+                        comment,
+                        rating,
                         use_yn: 'y',
                         update_dt : new Date(Date.now())
                     },{
@@ -265,9 +269,9 @@ exports.postBookUnsave = async (req, res) => {
     const postData = async () => {
         const id = req.params.id;
         const email = req.body.email;
+        console.log(id)
         try{
             const user = await User.findOne({email});
-            console.log(user)
             let updatedBook = await SavedBook.findOneAndUpdate({
                 isbn: id,
                 uid: user._id,

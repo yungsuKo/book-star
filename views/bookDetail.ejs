@@ -79,21 +79,18 @@
 			
 			
 			$(".heart-btn").click(function(e){
-				let isbn = $(".heart_btn").attr("data-isbn");
+				let isbn = e.target.getAttribute('data-isbn');
 				if ($(".heart-btn").text() === "♡") {
 					if (isLogin) {
-						$(".modal_background_save").removeClass(
-							"unshow"
-						);
-						$(".modal_background_save").addClass(
-							"show"
-						);
+						$(".modal_background_save").removeClass("unshow");
+						$(".modal_background_save").addClass("show");
 					}else {
 						$(".modal_background").removeClass("unshow");
 						$(".modal_background").addClass("show");
 					};
 				}else if ($(".heart-btn").text() === "♥") {
 					try {
+						console.log(isbn)
 						$.ajax({
 							url: `/book/unsave/${isbn}`,
 							type: "post",
@@ -102,6 +99,7 @@
 							success: function (result) {
 								console.log(result.status);
 								$(".heart-btn").text("♡");
+								
 							},
 						});
 					} catch (err) {
@@ -126,12 +124,8 @@
 						success: function (result) {
 							console.log(result);
 							$(".heart-btn").text("♥");
-							$(".modal_background_save").removeClass(
-								"unshow"
-							);
-							$(".modal_background_save").addClass(
-								"show"
-							);
+							$(".modal_background_save").removeClass("show");
+							$(".modal_background_save").addClass("unshow");
 						},
 					});
 				} catch (err) {

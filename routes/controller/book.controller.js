@@ -62,7 +62,7 @@ router.post('/save/:id', async(req, res, next) => {
 router.post('/unsave/:id', async(req, res, next) => {
     let result;
     let item;
-    console.log("unsacving")
+    console.log(req.params.id)
     try{
         let options = {
             url: `http://127.0.0.1:3000/api/book/unsave/${req.params.id}`,
