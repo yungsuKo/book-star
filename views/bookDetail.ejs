@@ -110,9 +110,10 @@
 			$(".book_comment-save").click(function (e) {
 				e.preventDefault();
 				let isbn = $(".book_comment-save").attr("data-isbn");
+				let img = $("img").attr('src');
 				let comment = $('.comment').val();
 				let rating = $('.rating').val();
-				sendData = { email, comment, rating };
+				sendData = { email, comment, img, rating };
 				console.log("감사");
 				try {
 					$.ajax({

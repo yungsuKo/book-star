@@ -191,7 +191,7 @@ exports.getBookDetail = async (req, res) => {
 exports.postBookSave = async (req, res) => {
     const postData = async () => {
         const {id} = req.params;
-        const {email, comment, rating} = req.body;
+        const {email, comment, img, rating} = req.body;
 
         try{
             const user = await User.findOne({email});
@@ -201,6 +201,7 @@ exports.postBookSave = async (req, res) => {
                     let book = await SavedBook.create({
                         isbn: id,
                         uid: user._id,
+                        img,
                         comment,
                         rating,
                         use_yn: 'y'
@@ -219,6 +220,7 @@ exports.postBookSave = async (req, res) => {
                         isbn: id,
                         uid: user._id,
                         comment,
+                        img,
                         rating,
                         use_yn: 'y',
                         update_dt : new Date(Date.now())

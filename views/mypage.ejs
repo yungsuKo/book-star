@@ -18,13 +18,10 @@
                 <!-- 이미지, 제목, 코멘트.. -->
                 <a class="book_item" href=<%=`/book/${items[i].isbn}` %>>
                     <div class="book_item-img">
-                        <img src=<%=items[i].image %>/>
+                        <img src="<%=items[i].img %>" />
                     </div>
                     <div class="book_item-title">
-                        <%=items[i].title %>
-                    </div>
-                    <div class="book_item-author">
-                        <%=items[i].author %>
+                        <%=items[i].comment %>
                     </div>
                 </a>
             <%} %>
