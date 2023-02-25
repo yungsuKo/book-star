@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="/scss/output/style.css" />
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+		<script
+			type="text/javascript"
+			src="/js/plugins/jquery.cookie.js"
+		></script>
+
+		<title>Document</title>
+	</head>
+	<body>
+		<main>
+			<%- include('./part/header') %>
+			<div class="book_info-short title">
+				<%= item %>
+			</div>
+			<img src="<%=item %>"/>
+			<div>
+				<%= item %>
+			</div>
+			<div class="modal_background unshow">
+				<div class="modal_box">
+					<div class="modal_box-close">X</div>
+					<div class="modal_box-description">
+						회원가입 후 사용 가능합니다.
+					</div>
+					<a href="/user/signup">
+						<div class="modal_box-signup">회원가입 하러하기</div>
+					</a>
+				</div>
+			</div>
+			<div class="modal_background_save unshow">
+				<div class="modal_box">
+					<div class="modal_box-close">X</div>
+                    <span>코멘트를 입력해주세요</span>
+					<div class="modal_box-description">
+						<span class="star">
+							★★★★★
+							<span>★★★★★</span>
+							<input
+								type="range"
+								class="rating"
+								oninput="drawStar(this)"
+								value="1"
+								step="1"
+								min="0"
+								max="10"
+							/>
+						</span>
+						<input placeholder="comment" class="comment"/>
+                        <button class="book_comment-save" data-isbn=<%=item %>>저장</button>
+					</div>
+				</div>
+			</div>
+		</main>
+		<script>
+			let email = $.cookie("email");
+			let isLogin = email ? true : false;
+			const drawStar = (target) => {
+				document.querySelector(`.star span`).style.width = `${
+					target.value * 10
+				}%`;
+			};
+
+			let sendData = { email };
+			
+			
+			$(".heart-btn").click(function(e){
+				let isbn = e.target.getAttribute('data-isbn');
+				if ($(".heart-btn").text() === "♡") {
+					if (isLogin) {
+						$(".modal_background_save").removeClass("unshow");
+						$(".modal_background_save").addClass("show");
+					}else {
+						$(".modal_background").removeClass("unshow");
+						$(".modal_background").addClass("show");
+					};
+				}else if ($(".heart-btn").text() === "♥") {
+					try {
+						console.log(isbn)
+						$.ajax({
+							url: `/book/unsave/${isbn}`,
+							type: "post",
+							contentType: "application/json",
+							data: JSON.stringify(sendData),
+							success: function (result) {
+								$(".heart-btn").text("♡");
+								
+							},
+						});
+					} catch (err) {
+						console.log(err);
+					}
+				}
+
+			});
+			$(".book_comment-save").click(function (e) {
+				e.preventDefault();
+				let isbn = $(".book_comment-save").attr("data-isbn");
+				let img = $("img").attr('src');
+				let comment = $('.comment').val();
+				let rating = $('.rating').val();
+                let title = $('.title').val();
+                let author = $('.author').val();
+                console.log(title)
+
+				sendData = { email, comment, img, rating, title, author };
+				console.log("감사");
+				try {
+					$.ajax({
+						url: `/book/save/${isbn}`,
+						type: "post",
+						contentType: "application/json",
+						data: JSON.stringify(sendData),
+						success: function (result) {
+							$(".heart-btn").text("♥");
+							$(".modal_background_save").removeClass("show");
+							$(".modal_background_save").addClass("unshow");
+						},
+					});
+				} catch (err) {
+					console.log(err);
+				}
+			// db에 나만의 책목록 만들기
+			// 프론트에서는 좋아요 표시 처리
+			// 팝업으로 좋아하는 책으로 등록되었습니다.(뜨고 사라지기)
+			})
+			
+			$(".modal_box-close").click(function (e) {
+				e.preventDefault();
+				$(".modal_background").removeClass("show");
+				$(".modal_background").addClass("unshow");
+				$(".modal_background_save").removeClass("show");
+				$(".modal_background_save").addClass("unshow");
+			});
+			$(".modal_background").click(function (e) {
+				if (!e.target.classList.contains("modal_box")) {
+					$(".modal_background").removeClass("show");
+					$(".modal_background").addClass("unshow");
+				}
+			});
+		</script>
+	</body>
+</html>

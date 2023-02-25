@@ -104,9 +104,21 @@ exports.logout = async (req, res) => {
 
 exports.mybooks = async (req, res, next) => {
     const {email} = req.body;
-    const getBooks = async () => {
-        const books = await SavedBook.find({email, use_yn:'y'});
+    const user = await User.find({email})
+    const getBooks = async (user) => {
+        const books = await SavedBook.find({uid: user[0]._id, use_yn:'y'});
         return res.json(books)
     }
-    await getBooks();
+    await getBooks(user);
+}
+
+exports.mybooksDetail = async (req, res, next) => {
+    const {email} = req.body;
+    const user = await User.find({email})
+    const {id} = req.params;
+    const getBook = async (user, id) => {
+        const mybook = await SavedBook.find({uid: user[0]._id, use_yn:'y', isbn: id});
+        return res.json(mybook[0])
+    }
+    await getBook(user, id);
 }

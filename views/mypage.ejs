@@ -16,7 +16,7 @@
         <div class="book_list">
             <% for(let i=0; i<items.length; i++){ %>
                 <!-- 이미지, 제목, 코멘트.. -->
-                <a class="book_item" href=<%=`/book/${items[i].isbn}` %>>
+                <a class="book_item" href=<%=`/user/mypage/${items[i].isbn}` %>>
                     <div class="book_item-img">
                         <img src="<%=items[i].img %>" />
                     </div>
