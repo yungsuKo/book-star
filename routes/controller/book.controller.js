@@ -47,6 +47,7 @@ router.post('/save/:id', async(req, res, next) => {
             body: {
                 email: req.body.email,
                 comment: req.body.comment,
+                title: req.body.title,
                 img: req.body.img,
                 rating: req.body.rating
             },

@@ -129,7 +129,7 @@ h1 {
   font-weight: 600;
 }
 
-.book_info-short {
+.book_info-box {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;

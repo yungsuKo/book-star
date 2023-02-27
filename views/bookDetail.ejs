@@ -16,8 +16,10 @@
 	<body>
 		<main>
 			<%- include('./part/header') %>
-			<div class="book_info-short">
-				<%= item.title._text%>
+			<div class="book_info-box">
+				<div class="book_info-title">
+					<%= item.title._text%>
+				</div>
 				<!-- heart 여부에 따라 값을 노출되는 버튼이 달라짐 -->
 				<%if(exist){%>
 					<div class="heart-btn" data-isbn=<%=item.isbn._text %>>♥</div>
@@ -111,10 +113,11 @@
 				e.preventDefault();
 				let isbn = $(".book_comment-save").attr("data-isbn");
 				let img = $("img").attr('src');
+				let title = $('.book_info-title').text().trim();
 				let comment = $('.comment').val();
 				let rating = $('.rating').val();
-				sendData = { email, comment, img, rating };
-				console.log("감사");
+				sendData = { email, comment,title, img, rating };
+				console.log(title);
 				try {
 					$.ajax({
 						url: `/book/save/${isbn}`,

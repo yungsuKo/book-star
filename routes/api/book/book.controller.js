@@ -191,7 +191,7 @@ exports.getBookDetail = async (req, res) => {
 exports.postBookSave = async (req, res) => {
     const postData = async () => {
         const {id} = req.params;
-        const {email, comment, img, rating} = req.body;
+        const {email, comment, title, img, rating} = req.body;
 
         try{
             const user = await User.findOne({email});
@@ -203,6 +203,7 @@ exports.postBookSave = async (req, res) => {
                         uid: user._id,
                         img,
                         comment,
+                        title,
                         rating,
                         use_yn: 'y'
                     })
@@ -216,14 +217,17 @@ exports.postBookSave = async (req, res) => {
                     let updatedBook = await SavedBook.findOneAndUpdate({
                         isbn: id,
                         uid: user._id,
-                    }, {
-                        isbn: id,
-                        uid: user._id,
-                        comment,
-                        img,
-                        rating,
-                        use_yn: 'y',
-                        update_dt : new Date(Date.now())
+                    }, {$set:
+                        {
+                            isbn: id,
+                            uid: user._id,
+                            comment,
+                            title,
+                            img,
+                            rating,
+                            use_yn: 'y',
+                            update_dt : new Date(Date.now())
+                        }
                     },{
                         new: true
                     })
