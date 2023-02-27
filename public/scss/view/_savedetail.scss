@@ -1,0 +1,11 @@
+.book_info-comment{
+    display: flex;
+    justify-content: space-between;
+    .book_info-edit{
+        display: flex;
+        width : 100%;
+        .save_btn{
+            width: 50px;
+        }
+    }
+}

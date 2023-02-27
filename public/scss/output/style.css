@@ -254,6 +254,26 @@ img {
   float: right;
 }
 
+.book_info-comment {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.book_info-comment .book_info-edit {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+}
+
+.book_info-comment .book_info-edit .save_btn {
+  width: 50px;
+}
+
 input {
   display: block;
   width: 100%;

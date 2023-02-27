@@ -132,12 +132,42 @@ router.get("/mypage/:id", async (req, res)=>{
             retryStrategy: request.RetryStrategies.HTTPOrNetworkError
         }
         result = await request(options);
-        console.log(result.body)
-        res.render("saveDetail",{item})
+        item = result.body
+        
+        res.render("saveDetail",{
+            item
+        })
     }catch(err){
         console.log(err)
     }
 })
 
+router.post("/mypage/:id", async (req, res)=>{
+    let item;
+    let sendData = {
+        email: req.cookies.email,
+        comment : req.body.comment,
+    };
+    console.log(sendData.comment)
+    let {id} = req.params;
+    try{
+        let options = {
+            url: `http://127.0.0.1:3000/api/user/mybooks/${id}`,
+            method: "post",
+            json: true,
+            maxAttempts: 2,
+            form: sendData,
+            retryDelay: 500,
+            retryStrategy: request.RetryStrategies.HTTPOrNetworkError
+        }
+        result = await request(options);
+        console.log("result.body :",result.body);
+        item = result.body
+        
+        res.redirect(`/user/mypage/${id}`);
+    }catch(err){
+        console.log(err)
+    }
+})
 
 module.exports = router;

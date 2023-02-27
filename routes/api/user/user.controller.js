@@ -117,8 +117,24 @@ exports.mybooksDetail = async (req, res, next) => {
     const user = await User.find({email})
     const {id} = req.params;
     const getBook = async (user, id) => {
-        const mybook = await SavedBook.find({uid: user[0]._id, use_yn:'y', isbn: id});
-        return res.json(mybook[0])
+        const mybook = await SavedBook.findOne({uid: user[0]._id, use_yn:'y', isbn: id});
+        return res.json(mybook);
     }
     await getBook(user, id);
+}
+
+exports.mybooksUpdate = async(req, res, next) => {
+    const {email, comment} = req.body;
+    const user = await User.find({email})
+    const {id} = req.params;
+    const getBook = async (user, id) => {
+        const mybook = await SavedBook.findOneAndUpdate(
+            {uid: user[0]._id, isbn: id},
+            {$set:{comment}},
+            {new: true}
+            );
+        return res.json(mybook);
+    }
+    await getBook(user, id);
+
 }
