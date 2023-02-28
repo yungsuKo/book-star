@@ -14,19 +14,14 @@
         width : 50px;
     }
 }
-.book_list{
-    display: flex;
-    flex-wrap:wrap;
-}
+
 .book_item{
-    width : 45%;
-    
-    margin : 12px auto 0px;
+    width : 150px;
+    height: 270px;
+    margin : 4px;
     .book_item-img{
-        height: 200px;
         text-align: center;
         img{
-            
             height: 100%;   
         }
     }

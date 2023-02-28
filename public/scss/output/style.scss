@@ -1,3 +1,11 @@
+// Custom.scss
+// Option A: Include all of Bootstrap
+
+// Include any default variable overrides here (though functions won't be available)
+
+@import "../../../node_modules/bootstrap/scss/bootstrap";
+
+// Then add additional custom code here
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -44,9 +52,7 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-body{
-	background-color: yellow;
-}
+
 @import '../view/layout';
 @import '../view/home';
 @import '../view/bookdetail';
