@@ -14,10 +14,14 @@
         width : 50px;
     }
 } 
+.book_list{
+    li{
+        flex: 0 0 25%;
+        padding: 10px;
+    }
+}
 
 .book_item{
-    width : 150px;
-    height: 270px;
     margin : 4px;
     .book_item-img{
         text-align: center;

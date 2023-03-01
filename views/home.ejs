@@ -11,24 +11,26 @@
             <input class="search_bar-box" name="search_keyword" placeholder="검색할 책 이름을 입력하세요"/>
             <button id="search_bar-btn">검색</button>
         </form>
-        <div>
-            <div class="d-inline-flex flex-wrap" style="padding:0 7%;">
+        <div class="book_list" style="box-sizing: border-box;">
+            <ul class="d-inline-flex flex-wrap" style="padding:0 7%;">
             <% for(let i=0; i<items.length; i++){ %>
-                <a class="d-flex flex-column justify-content-between book_item" href=<%=`/book/${items[i].isbn}` %>>
-                    <div class="book_item-img">
-                        <img src=<%=items[i].image %>/>
-                    </div>
-                    <div>
-                        <div class="book_item-title">
-                            <%=items[i].title %>
+                <li>
+                    <a class="d-flex flex-column justify-content-between book_item" href=<%=`/book/${items[i].isbn}` %>>
+                        <div class="book_item-img">
+                            <img src=<%=items[i].image %>/>
                         </div>
-                        <div class="book_item-author">
-                            <%=items[i].author %>
+                        <div>
+                            <div class="book_item-title">
+                                <%=items[i].title %>
+                            </div>
+                            <div class="book_item-author">
+                                <%=items[i].author %>
+                            </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
+                </li>
             <%} %>
-            </div>
+            </ul>
         </div>
     </>
     <script>
