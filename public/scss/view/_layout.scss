@@ -16,96 +16,18 @@ main{
 h1{
     font-size: 18px;
 }
-@include media-breakpoint-up(lg) {
+
+@include media-breakpoint-up(xl){
     body{
-        min-width:1280px;
+        min-width:1200px;
     }
+}
+@include media-breakpoint-up(lg) {
     .container-fluid{
         margin-top: 32px;padding-left: 20px;padding-right: 20px;
     }
     #side-block{
         width: 160px;padding: 0px 0px;
         bottom: 0;height: 100vh;left: 0;position: fixed;top: 0;background: #101009;z-index: 1001;
-    }
-    #center-block{
-        width: 270px;padding: 31px 26px;left: 160px;background: #fff;
-        bottom: 0;height: 100vh;position: fixed;top: 0;z-index: 1000;border-right: 1px solid;
-        .btn-collapse{
-            position: absolute;right: -42px;top: 140px;display: none;
-            a{
-                display: block;width: 42px;height: 42px;border-radius: 0 7px 7px 0;background: #101009;position: relative;
-                &::before{content: '';display: block;bbackground-size: contain;width: 10px;height: 18px;position: absolute;left: 50%;top: 50%;margin: -9px 0 0 -5px;transition: all .2s .1s;}
-            }
-        }
-    }
-    #float-container{
-        height: 100%;position: sticky;top: 33px;
-    }
-    #float-container + #container-block{
-        margin-right: 340px;border-top: 0;
-    }
-    #container-block{
-        padding: 5px 5px; min-width:798px;
-    }
-    #center-block + #container-block{
-        margin-left: 430px;border-top: 0;
-    }
-    #main-block{
-        margin-left: 160px;
-        .container{padding-left: 25px;padding-right: 25px;}
-    }
-    
-    #footer-block{
-        padding: 50px 80px;margin-left: 160px;min-width:798px;
-        .footer{padding-left: 0;padding-right: 0;}
-    }
-
-    html.is-collapsed{
-        #center-block{
-            transform: translateX(-100%);
-            .btn-collapse{
-                a{
-                    &::before{transform: rotate(180deg);}
-                }
-            }
-        }
-        #center-block + #container-block{
-            margin-left: 160px;
-        }
-        #right-block{
-            left: -180px !important;
-        }
-    }
-}
-@include media-breakpoint-down(md){
-    #float-block{display: none;}
-    #center-block{
-        background: #FAFAFA;
-        padding: 0px 24px 8px;
-        margin-top: 8px;
-        transition: all .3s ease-in-out;
-        box-shadow: 0 5px 10px 0 rgba(0,0,0,0.05);
-        border: 0px solid transparent;
-        &.input-area{
-            padding: 0px 0px 8px;box-shadow: 0 0 transparent;
-        }
-        &#tab2{
-            padding: 0px 24px 28px;
-        }
-    }
-    #content{padding-top:0px;}
-    #main-block{margin: 0 14px;padding-left: 20px; padding-right: 20px;
-    }
-    #right-block{
-        width: 280px;padding: 56px 24px;right: -280px;left: auto;
-    }
-    html.is-right-collapsed{
-        #right-block{
-            right: 0;left: auto;
-        }
-        .btn-right-collapse{opacity: 1;visibility: visible;}
-    }
-    .container-fluid{
-        margin-top: 24px;padding-left: 10px;padding-right: 10px;
     }
 }

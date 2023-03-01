@@ -2,14 +2,14 @@
 <html lang="en">
 <%- include('./part/head') %>
 <body>
-    <div class="container">
+    <div class="container-sm">
         <%- include('./part/header') %>
         <div class="home_banner">
             
         </div>
         <form class="search_bar">
-            <input class="search_bar-box" name="search_keyword" placeholder="검색할 책 이름을 입력하세요"/>
-            <button id="search_bar-btn">검색</button>
+            <input type="text" name="search_keyword" class="form-control" id="search_bar-box" placeholder="검색할 책 이름을 입력하세요">
+            <button id="search_bar-btn" class="btn btn-dark">검색</button>
         </form>
         <div class="book_list" style="box-sizing: border-box;">
             <ul class="d-inline-flex flex-wrap" style="padding:0 7%;">
@@ -36,23 +36,23 @@
     <script>
         function loadBooks(keyword){
             console.log(keyword)
-            let detachedBookItem = $('.book_list a').eq(0).detach();
+            let detachedBookItem = $('.book_list ul li').eq(0).detach();
             console.log(detachedBookItem.html())
             $.ajax({
                 type: 'get',
                 url: `/api/book/search?search_keyword=${keyword}`,
                 success : function(result){
-                    $('.book_list').empty();
+                    $('.book_list ul').empty();
                     const data = result.data;
                     
                     for(let i = 0; i<data.length; i++){
                         let bookData = data[i];
                         let clone = detachedBookItem.clone();
                         clone.find('.book_item-img img').attr("src", `${bookData.image}`);
-                        clone.attr('href', `/book/${bookData.isbn}`)
+                        clone.find('a').attr('href', `/book/${bookData.isbn}`)
                         clone.find('.book_item-title').text(bookData.title);
                         clone.find('.book_item-author').text(bookData.author);
-                        $('.book_list').append(clone);
+                        $('ul').append(clone);
                     }
                 }
             })
@@ -60,7 +60,8 @@
 
         $('.search_bar').submit(function(e){
             e.preventDefault();
-            let keyword = $('.search_bar-box').val();
+            let keyword = $('#search_bar-box').val();
+            console.log(keyword);
             loadBooks(keyword);
         })
     </script>
