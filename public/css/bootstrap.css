@@ -743,7 +743,6 @@ progress {
 
 .container,
 .container-fluid,
-.container-xs,
 .container-sm,
 .container-md,
 .container-lg,
@@ -756,10 +755,6 @@ progress {
   padding-left: calc(var(--bs-gutter-x) * .5);
   margin-right: auto;
   margin-left: auto;
-}
-
-.container {
-  max-width: 360px;
 }
 
 @media (min-width: 576px) {
@@ -4052,7 +4047,7 @@ fieldset:disabled .btn {
 }
 
 .navbar > .container,
-.navbar > .container-fluid, .navbar > .container-xs, .navbar > .container-sm, .navbar > .container-md, .navbar > .container-lg, .navbar > .container-xl, .navbar > .container-xxl {
+.navbar > .container-fluid, .navbar > .container-sm, .navbar > .container-md, .navbar > .container-lg, .navbar > .container-xl, .navbar > .container-xxl {
   display: flex;
   flex-wrap: inherit;
   align-items: center;
