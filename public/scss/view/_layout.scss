@@ -1,20 +1,6 @@
-header{
-    display: flex;
-    justify-content: space-between;
-    padding : 10px;
-    div{
-        width : 70px;
-        text-align: center;
-    }
-}
-
 main{
     margin: 0 auto;
     width :360px;
-}
-
-h1{
-    font-size: 18px;
 }
 
 @include media-breakpoint-up(xl){

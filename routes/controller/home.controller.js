@@ -19,7 +19,7 @@ router.get('/', async(req, res, next) => {
     }catch(error){
         console.log(error);
     }
-    res.render('home', {
+    res.render('home2', {
         items
     })
 })
