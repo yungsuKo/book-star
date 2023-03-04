@@ -150,13 +150,20 @@
 
 		<main class="container">
 			<div class="d-flex p-1 p-md-2 mb-4 rounded text-bg-white">
-				<div class="col-6">
+				<div class="col-md-4">
 					<img src=<%=item.image._text%>/>
 				</div>
-				<div class="col-6 px-0">
-					<h1 class="display-4">
-						책을 한 번 읽어봅시다!
-					</h1>
+				<div class="col-md-8 px-0">
+					<div class="d-flex justify-content-between">
+						<h1 class="display-5">
+							책을 한 번 읽어봅시다!
+						</h1>
+						<%if(exist){%>
+							<div class="heart-btn align-middle" data-isbn=<%=item.isbn._text %>>♥</div>
+						<%}else{%>
+							<div class="heart-btn align-middle" data-isbn=<%=item.isbn._text %>>♡</div>
+						<%}%>
+					</div>
 					<p class="lead my-3">
 						Multiple lines of text that form the lede, informing new
 						readers quickly and efficiently about what’s most
@@ -167,6 +174,21 @@
 							>Continue reading...</a
 						>
 					</p>
+					<form class="row">
+						<div class="col-3 form-floating">
+							<select class="form-select" id="floatingSelect" aria-label="Floating label select example">
+								<option selected>type</option>
+								<option value="1">One</option>
+								<option value="2">Two</option>
+								<option value="3">Three</option>
+							</select>
+							<label for="floatingSelect">Works with selects</label>
+						</div>
+						<div class="col-9 form-floating">
+							<textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+							<label for="floatingTextarea2">Comments</label>
+						</div>
+					</form>
 				</div>
 			</div>
 		</main>
