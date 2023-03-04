@@ -25,12 +25,11 @@ router.get('/:id', async(req, res, next) => {
         exist = await BookSave.exists({$and:[{uid: user[0]._id}, {isbn:item.isbn._text}, {use_yn: 'y'}]})
         // 1. user가 없는 경우
         // 2. 책이 저장되어 있지 않은 경우
-        console.log(exist)
         
     }catch(error){
         console.log(error);
     }
-    res.render('bookDetail',{
+    res.render('bookDetail2',{
         item,
         exist
     })
