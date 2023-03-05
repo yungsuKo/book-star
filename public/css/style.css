@@ -190,16 +190,6 @@ img {
   width: 50px;
 }
 
-input {
-  display: block;
-  width: 100%;
-}
-
-form {
-  width: 80%;
-  margin: 0 auto;
-}
-
 .bot_login_btn {
   margin-top: 20px;
 }

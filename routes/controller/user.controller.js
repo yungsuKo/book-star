@@ -3,7 +3,7 @@ const request = require('requestretry');
 const router = express();
 
 router.get('/signup', (req, res)=>{
-    res.render('signup');
+    res.render('signup2');
 })
 router.post('/signup', async (req, res, next)=>{
     let result
