@@ -14,7 +14,6 @@ exports.signup = async (req, res) => {
                 const user = await User.create({
                     email, password, nickname
                 })
-                console.log(user)
                 return res.json({
                     status : {
                         code : 200,

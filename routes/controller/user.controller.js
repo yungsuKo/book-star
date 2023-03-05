@@ -6,6 +6,8 @@ router.get('/signup', (req, res)=>{
     res.render('signup2');
 })
 router.post('/signup', async (req, res, next)=>{
+    console.log("Sign up post is in here")
+    console.log(req.body)
     let result
     try{
         let options = {

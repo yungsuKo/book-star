@@ -20,88 +20,66 @@
 										Create an account
 									</h2>
 
-									<form>
-										<div class="form-outline mb-4">
-											<input
-												type="text"
-												id="form3Example1cg"
-												class="form-control form-control-lg"
-											/>
+									<form class="signup_form" method="post">
+										<div class="form-group mb-4">
 											<label
 												class="form-label"
-												for="form3Example1cg"
+												for="nickname"
 												>Your Name</label
 											>
-										</div>
-
-										<div class="form-outline mb-4">
 											<input
-												type="email"
-												id="form3Example3cg"
+												type="text"
+												id="nickname"
+												name="nickname"
 												class="form-control form-control-lg"
 											/>
+										</div>
+										<div class="form-outline mb-4">
 											<label
 												class="form-label"
-												for="form3Example3cg"
+												for="email"
 												>Your Email</label
 											>
-										</div>
-
-										<div class="form-outline mb-4">
 											<input
-												type="password"
-												id="form3Example4cg"
+												type="text"
+												id="email"
+												name="email"
 												class="form-control form-control-lg"
 											/>
+										</div>
+										<div class="form-outline mb-4">
 											<label
 												class="form-label"
-												for="form3Example4cg"
+												for="password"
 												>Password</label
 											>
-										</div>
-
-										<div class="form-outline mb-4">
 											<input
 												type="password"
-												id="form3Example4cdg"
+												id="password"
+												name="password"
 												class="form-control form-control-lg"
 											/>
+										</div>
+										<div class="form-outline mb-4">
 											<label
 												class="form-label"
-												for="form3Example4cdg"
+												for="password2"
 												>Repeat your password</label
 											>
-										</div>
-
-										<div
-											class="form-check d-flex justify-content-center mb-5"
-										>
 											<input
-												class="form-check-input me-2"
-												type="checkbox"
-												value=""
-												id="form2Example3cg"
+												type="password"
+												id="password2"
+												class="form-control form-control-lg"
 											/>
-											<label
-												class="form-check-label"
-												for="form2Example3g"
-											>
-												I agree all statements in
-												<a href="#!" class="text-body"
-													><u>Terms of service</u></a
-												>
-											</label>
 										</div>
-
 										<div
 											class="d-flex justify-content-center"
 										>
-											<button
-												type="button"
+											<input
+												type="submit"
 												class="btn btn-success btn-block btn-lg gradient-custom-4 text-body"
-											>
-												Register
-											</button>
+												value="Register"
+											/>
 										</div>
 
 										<p
@@ -122,6 +100,11 @@
 				</div>
 			</div>
 		</section>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js"
+			integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+			crossorigin="anonymous"
+		></script>
 		<script>
 			// function signup(email, password, nickname){
 			//     $.ajax({
@@ -140,8 +123,10 @@
 				let nickname = $("#nickname").val();
 				console.log(password, password2);
 				if (password !== password2) {
-					e.preventDefault();
-					return alert("비밀번호가 다릅니다.");
+					// e.preventDefault => 자동으로 submit이 되지 않도록
+					// 근데 현재는 위 코드가 없어도 제대로 실행되는디..무엇이 문제인가
+					document.location.replace('http://127.0.0.1:3000/user/signup');
+					alert("비밀번호가 다릅니다.")
 				}
 			});
 		</script>
