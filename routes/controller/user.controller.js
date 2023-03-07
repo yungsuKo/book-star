@@ -11,7 +11,7 @@ router.post('/signup', async (req, res, next)=>{
     let result
     try{
         let options = {
-            url: "http://127.0.0.1:3000/api/user/signup",
+            url: process.env.BASE_URL+"/api/user/signup",
             method: "post",
             json: true,
             maxAttempts: 2,
@@ -41,7 +41,7 @@ router.post('/login', async (req, res, next)=>{
     let user;
     try{
         let options = {
-            url: "http://127.0.0.1:3000/api/user/login",
+            url: process.env.BASE_URL+"/api/user/login",
             method: "post",
             json: true,
             maxAttempts: 2,
