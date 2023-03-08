@@ -121,11 +121,15 @@
 						<h1 class="display-6">
 							<%= item.title._text %>
 						</h1>
-						<%if(exist){%>
-							<button class="heart-btn align-middle" data-bs-toggle="modal" data-bs-target="#exampleModal" data-isbn=<%=item.isbn._text %>>♥</button>
-						<%}else{%>
-							<button class="heart-btn align-middle" data-bs-toggle="modal" data-bs-target="#exampleModal" data-isbn=<%=item.isbn._text %>>♡</button>
-						<%}%>
+						<%if(isLogin){%>
+							<%if(exist){%>
+								<button class="heart-btn align-middle" data-isbn=<%=item.isbn._text %>>♥</button>
+							<%}else{%>
+								<button class="heart-btn align-middle" data-bs-toggle="modal" data-bs-target="#exampleModal" data-isbn=<%=item.isbn._text %>>♡</button>
+							<%}%>
+						<% }else{ %>
+							<button class="heart-btn align-middle" data-bs-toggle="modal" data-bs-target="#signupModal" data-isbn=<%=item.isbn._text %>>♡</button>
+						<% } %>
 					</div>
 					<p class="lead my-3">
 						<%= item.description._text %>
@@ -143,30 +147,51 @@
 				</div>
 			</div>
 		</main>
-		<div class="modal_background unshow">
-			<div class="modal_box">
-				<div class="modal_box-close">X</div>
-				<div class="modal_box-description">
-					회원가입 후 사용 가능합니다.
+		<div class="modal fade" tabindex="-1" style="background-color:rgba(0,0,0,30%)" id="signupModal">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Please Sign up First</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<p>회원가입을 먼저 진행해주세요!</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+						<a href="/user/signup" class="btn btn-primary">회원가입</a>
+					</div>
 				</div>
-				<a href="/user/signup">
-					<div class="modal_box-signup">회원가입 하러하기</div>
-				</a>
 			</div>
 		</div>
 		<div class="modal fade" tabindex="-1" style="background-color:rgba(0,0,0,30%)" id="exampleModal">
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title">Modal title</h5>
+						<h5 class="modal-title">Comment</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-						<p>Modal body text goes here.</p>
+						<div class="modal_box-description d-flex flex-column">
+							<span class="star d-inline-block">
+								★★★★★
+								<span>★★★★★</span>
+								<input
+									type="range"
+									class="rating"
+									oninput="drawStar(this)"
+									value="1"
+									step="1"
+									min="0"
+									max="10"
+								/>
+							</span>
+							<textarea placeholder="코멘트를 작성해주세요" class="comment"></textarea>
+						</div>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary">Save changes</button>
+						<button type="button" class="btn btn-primary" id="book_comment-save" data-isbn=<%=item.isbn._text %>>Save changes</button>
 					</div>
 				</div>
 			</div>
@@ -241,9 +266,9 @@
 				}
 
 			});
-			$(".book_comment-save").click(function (e) {
+			$("#book_comment-save").click(function (e) {
 				e.preventDefault();
-				let isbn = $(".book_comment-save").attr("data-isbn");
+				let isbn = $("#book_comment-save").attr("data-isbn");
 				let img = $("img").attr('src');
 				let title = $('.book_info-title').text().trim();
 				let comment = $('.comment').val();
@@ -258,8 +283,7 @@
 						data: JSON.stringify(sendData),
 						success: function (result) {
 							$(".heart-btn").text("♥");
-							$(".modal_background_save").removeClass("show");
-							$(".modal_background_save").addClass("unshow");
+							
 						},
 					});
 				} catch (err) {

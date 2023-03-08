@@ -191,6 +191,7 @@ exports.getBookDetail = async (req, res) => {
 exports.postBookSave = async (req, res) => {
     const postData = async () => {
         const {id} = req.params;
+        console.log(req.params)
         const {email, comment, title, img, rating} = req.body;
 
         try{
@@ -231,7 +232,6 @@ exports.postBookSave = async (req, res) => {
                     },{
                         new: true
                     })
-                    console.log("updatedBook", updatedBook.use_yn);
                     return res.json({
                         status: {
                             code: 200

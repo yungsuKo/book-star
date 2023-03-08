@@ -100,6 +100,7 @@
 			$(".book_comment-save").click(function (e) {
 				e.preventDefault();
 				let isbn = $(".book_comment-save").attr("data-isbn");
+				console.log(isbn)
 				let img = $("img").attr('src');
 				let title = $('.book_info-title').text().trim();
 				let comment = $('.comment').val();
