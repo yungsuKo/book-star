@@ -1,41 +1,29 @@
-<header>
-	<div class="menu_btn">메뉴</div>
-	<div class="menu_open-background unshow">
-		<div class="menu_open">
-			<div class="menu_open-top">
-				<div class="menu_open-title">메뉴</div>
-				<div class="menu_open-close">X</div>
-			</div>
-			<ul>
-				<a href="/">
-					<li>검색</li>
-				</a>
-				<%if(isLogin){%>
-					<a href="/user/mypage">
-						<li>마이페이지</li>
-					</a>
-				<%}%>
-			</ul>
+<header class="blog-header lh-1 py-3">
+	<div class="row flex-nowrap justify-content-between align-items-center">
+		<div class="col-4 pt-1">
+			<a class="link-secondary" href="#">Subscribe</a>
+		</div>
+		<div class="col-4 text-center">
+			<a class="blog-header-logo text-dark" href="/">BOOOOKS</a>
+		</div>
+		<div class="col-4 d-flex justify-content-end align-items-center">
+			<% if(isLogin){ %>
+			<a class="btn btn-sm btn-outline-secondary" href="/user/mypage"
+				>Mypage</a
+			>
+			<% }else{%>
+			<a class="btn btn-sm btn-outline-secondary" href="/user/signup"
+				>Sign up</a
+			>
+			<% } %>
 		</div>
 	</div>
-	<a href="/">
-		<div class="logo_btn">🕮</div>
-	</a>
-	<% if(isLogin){ %>
-		<a href="/user/logout">
-			<div class="logout_btn">로그아웃</div>
-		</a>
-	<%}else{ %>
-		<a href="/user/signup">
-			<div class="login_btn">회원가입</div>
-		</a>
-	<% } %>
-	<script>
-		$('.menu_btn').click(function(e){
-			$('.menu_open-background').toggleClass('unshow');
-		})
-		$('.menu_open-close').click(function(e){
-			$('.menu_open-background').toggleClass('unshow');
-		})
-	</script>
 </header>
+<!-- <script>
+	$('.menu_btn').click(function(e){
+		$('.menu_open-background').toggleClass('unshow');
+	})
+	$('.menu_open-close').click(function(e){
+		$('.menu_open-background').toggleClass('unshow');
+	})
+</script> -->

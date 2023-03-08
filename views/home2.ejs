@@ -118,50 +118,7 @@
 	</head>
 	<body>
 		<div class="container">
-			<header class="blog-header lh-1 py-3">
-				<div
-					class="row flex-nowrap justify-content-between align-items-center"
-				>
-					<div class="col-4 pt-1">
-						<a class="link-secondary" href="#">Subscribe</a>
-					</div>
-					<div class="col-4 text-center">
-						<a class="blog-header-logo text-dark" href="#">Large</a>
-					</div>
-					<div
-						class="col-4 d-flex justify-content-end align-items-center"
-					>
-						<a class="link-secondary" href="#" aria-label="Search">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								width="20"
-								height="20"
-								fill="none"
-								stroke="currentColor"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								class="mx-3"
-								role="img"
-								viewBox="0 0 24 24"
-							>
-								<title>Search</title>
-								<circle cx="10.5" cy="10.5" r="7.5" />
-								<path d="M21 21l-5.2-5.2" />
-							</svg>
-						</a>
-						<% if(isLogin){ %>
-							<a class="btn btn-sm btn-outline-secondary" href="/user/mypage"
-								>Mypage</a
-							>
-						<% }else{%>
-							<a class="btn btn-sm btn-outline-secondary" href="/user/signup"
-								>Sign up</a
-							>
-						<% } %>
-					</div>
-				</div>
-			</header>
+			<%-include('./part/header')%>
 
 			<div class="nav-scroller py-1 mb-2">
 				<nav class="nav d-flex justify-content-between">
@@ -182,7 +139,7 @@
 		</div>
 
 		<main class="container">
-			<div class="p-4 p-md-5 mb-4 rounded text-bg-dark">
+			<div class="p-4 p-md-5 mb-2 rounded text-bg-dark">
 				<div class="col-md-6 px-0">
 					<h1 class="display-4">
 						책을 한 번 읽어봅시다!
@@ -200,9 +157,39 @@
 				</div>
 			</div>
 
-			<div class="row mb-2">
+			<form class="input-group align-items-center my-1 p-2 search_bar">
+				<input
+					type="text"
+					class="form-control"
+					aria-label="Sizing example input"
+					aria-describedby="inputGroup-sizing-default"
+					id="search_keyword"
+					placeholder="검색할 책 이름을 입력하세요"
+				/>
+				<button class="input-group-text py-2" id="search">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="20"
+						height="20"
+						fill="none"
+						stroke="currentColor"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						class="mx-3"
+						role="img"
+						viewBox="0 0 24 24"
+					>
+						<title>Search</title>
+						<circle cx="10.5" cy="10.5" r="7.5" />
+						<path d="M21 21l-5.2-5.2" />
+					</svg>
+				</button>
+			</form>
+
+			<ul class="row p-2" id="book_list">
 				<% for(let i = 0; i<items.length; i++){ %>
-					<div class="col-lg-6">
+					<li class="col-lg-6" id="book_item">
 						<div
 							class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"
 						>
@@ -210,15 +197,16 @@
 								<img
 									class="bd-placeholder-img"
 									style="width:200px; height:250px;"
+									id="book_item-img"
 									src=<%=items[i].image %>
 									focusable="false"/>
 							</div>
 							<div class="col p-4 d-flex flex-column position-static">
-								<strong class="d-inline-block mb-2 text-primary"
+								<strong class="d-inline-block mb-2 text-primary" id=""
 									><%=items[i].publisher %></strong
 								>
 								
-								<h3 class="mb-0"><%=items[i].title %></h3>
+								<h3 class="mb-0" id="book_item-title"><%=items[i].title %></h3>
 								
 								<div class="mb-1 text-muted">
 									<%=items[i].pubdate %>
@@ -239,14 +227,50 @@
 							</div>
 							
 						</div>
-					</div>
+					</li>
 				<%}%>
-			</div>
+			</ul>
 
 		</main>
 
 		<footer class="blog-footer mt-3">
 			
 		</footer>
+		<script>
+			function loadBooks(keyword){
+				console.log(keyword)
+				let detachedBookItem = $('#book_list li').eq(0).detach();
+				console.log(detachedBookItem.html())
+				$.ajax({
+					type: 'get',
+					url: `/api/book/search?search_keyword=${keyword}`,
+					success : function(result){
+						$('#book_list').empty();
+						const data = result.data;
+						
+						for(let i = 0; i<data.length; i++){
+							let bookData = data[i];
+							let clone = detachedBookItem.clone();
+							clone.find('#book_item-img').attr("src", `${bookData.image}`);
+							clone.find('a').attr('href', `/book/${bookData.isbn}`)
+							clone.find('#book_item-title').text(bookData.title);
+							clone.find('#book_item-author').text(bookData.author);
+							// 이미지
+							// 출판사
+							// 제목
+							// 설명
+							$('#book_list').append(clone);
+						}
+					}
+				})
+			}
+	
+			$('.search_bar').submit(function(e){
+				e.preventDefault();
+				let keyword = $('#search_keyword').val();
+				console.log(keyword);
+				loadBooks(keyword);
+			})
+		</script>
 	</body>
 </html>
