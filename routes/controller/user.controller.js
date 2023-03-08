@@ -32,7 +32,7 @@ router.post('/signup', async (req, res, next)=>{
 })
 
 router.get('/login', (req, res)=>{
-    res.render('login',{
+    res.render('login2',{
         errorMsg: ""
     });
 })
@@ -62,7 +62,7 @@ router.post('/login', async (req, res, next)=>{
             res.redirect("/");
         }
         else if(code === 401){
-            res.render("login", {
+            res.render("login2", {
                 errorMsg : message
             });
         }

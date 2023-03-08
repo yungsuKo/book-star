@@ -149,14 +149,14 @@
 		</div>
 
 		<main class="container">
-			<div class="d-flex p-1 p-md-2 mb-4 rounded text-bg-white">
+			<div class="d-flex row p-1 p-md-2 mb-4 rounded text-bg-white">
 				<div class="col-md-4">
 					<img src='<%=item.image._text%>'/>
 				</div>
-				<div class="col-md-8 px-0">
+				<div class="col-md-8 p-3">
 					<div class="d-flex justify-content-between">
-						<h1 class="display-5">
-							책을 한 번 읽어봅시다!
+						<h1 class="display-6">
+							<%= item.title._text %>
 						</h1>
 						<%if(exist){%>
 							<div class="heart-btn align-middle" data-isbn=<%=item.isbn._text %>>♥</div>
@@ -172,17 +172,11 @@
 							>Continue reading...</a
 						>
 					</p>
-					<div class="input-group mb-3">
-						<button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
-						<ul class="dropdown-menu">
-						  <li><a class="dropdown-item" href="#">Action</a></li>
-						  <li><a class="dropdown-item" href="#">Another action</a></li>
-						  <li><a class="dropdown-item" href="#">Something else here</a></li>
-						  <li><hr class="dropdown-divider"></li>
-						  <li><a class="dropdown-item" href="#">Separated link</a></li>
-						</ul>
-						<input type="text" class="form-control" aria-label="Text input with dropdown button">
-					  </div>
+					<div class="form-floating">
+						<textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+						<label for="floatingTextarea">Comments</label>
+					</div>
+					<button type="button" class="btn btn-primary float-end mt-3">저장하기</button>
 				</div>
 			</div>
 		</main>
