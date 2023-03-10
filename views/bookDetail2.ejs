@@ -118,7 +118,7 @@
 				</div>
 				<div class="col-md-8 p-3">
 					<div class="d-flex justify-content-between">
-						<h1 class="display-6">
+						<h1 class="display-6 book_info-title">
 							<%= item.title._text %>
 						</h1>
 						<%if(isLogin){%>
@@ -139,11 +139,6 @@
 							>Continue reading...</a
 						>
 					</p>
-					<div class="form-floating">
-						<textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
-						<label for="floatingTextarea">Comments</label>
-					</div>
-					<button type="button" class="btn btn-primary float-end mt-3">저장하기</button>
 				</div>
 			</div>
 		</main>
@@ -191,7 +186,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary" id="book_comment-save" data-isbn=<%=item.isbn._text %>>Save changes</button>
+						<button type="button" class="btn btn-primary" id="book_comment-save" data-isbn=<%=item.isbn._text %> data-bs-dismiss="modal" >Save changes</button>
 					</div>
 				</div>
 			</div>
