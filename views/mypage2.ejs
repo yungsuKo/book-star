@@ -188,9 +188,11 @@
                                 <p class="card-text mb-auto">
                                     <%=items[i].comment%>
                                 </p>
-								<a href=<%="/user/mypage/"+items[i].isbn %> class="stretched-link"
-									>Continue reading</a
-								>
+								<div class="d-flex justify-content-between align-items-center">
+									<a href=<%="/user/mypage/"+items[i].isbn %>>Continue reading</a>
+									<button id="deleteBook" data-isbn="<%=items[i].isbn%>">❌</button>
+								</div>
+								
 							</div>
 							
 						</div>
@@ -203,6 +205,28 @@
 		<footer class="blog-footer mt-3">
 			
 		</footer>
-		
+		<script>
+			let email = $.cookie("email");
+			$('#deleteBook').click(function(e){
+				console.log(e.target.getAttribute('data-isbn'));
+				let isbn = e.target.getAttribute('data-isbn');
+				let sendData = { email };
+				try {
+					console.log(isbn)
+					$.ajax({
+						url: `/book/unsave/${isbn}`,
+						type: "post",
+						contentType: "application/json",
+						data: JSON.stringify(sendData),
+						success: function (result) {
+							console.log(result);
+							window.location="/user/mypage"
+						},
+					});
+				} catch (err) {
+					console.log(err);
+				}
+			})
+		</script>
 	</body>
 </html>

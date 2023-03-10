@@ -252,7 +252,7 @@
 							data: JSON.stringify(sendData),
 							success: function (result) {
 								$(".heart-btn").text("♡");
-								
+								$(".heart-btn").attr("data-bs-target","#exampleModal");
 							},
 						});
 					} catch (err) {
@@ -278,7 +278,7 @@
 						data: JSON.stringify(sendData),
 						success: function (result) {
 							$(".heart-btn").text("♥");
-							
+							$(".heart-btn").attr("data-bs-target","");
 						},
 					});
 				} catch (err) {
