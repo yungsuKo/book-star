@@ -20,7 +20,7 @@
 										Create an account
 									</h2>
 
-									<form class="signup_form" method="post">
+									<form class="signup_form" method="post" enctype='multipart/form-data'>
 										<div class="form-group mb-4">
 											<label
 												class="form-label"
@@ -69,6 +69,19 @@
 											<input
 												type="password"
 												id="password2"
+												class="form-control form-control-lg"
+											/>
+										</div>
+										<div class="form-outline mb-4">
+											<label
+												class="form-label"
+												for="profile_img"
+												>프로필 이미지</label
+											>
+											<input
+												type="file" accept="image/*"
+												id="profile_img"
+												name="profile_img"
 												class="form-control form-control-lg"
 											/>
 										</div>
@@ -121,6 +134,7 @@
 				let password = $("#password").val();
 				let password2 = $("#password2").val();
 				let nickname = $("#nickname").val();
+				let profile_img = $("#profile_img").val();
 				console.log(password, password2);
 				if (password !== password2) {
 					// e.preventDefault => 자동으로 submit이 되지 않도록

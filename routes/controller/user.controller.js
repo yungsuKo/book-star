@@ -2,12 +2,35 @@ const express = require('express');
 const request = require('requestretry');
 const router = express();
 
+const aws = require('aws-sdk');
+const fs = require('fs')
+const multerS3 = require('multer-s3');
+const multer = require('multer');
+const s3 = new aws.S3({
+    accessKeyId : process.env.AWS_ACCESS_KEY,
+    secretAccessKey : process.env.AWS_ACCESS_SECRET,
+    region: 'ap-northeast-2',
+});
+
+const storage = multerS3({
+    s3: s3,
+    acl: 'public-read-write',
+    bucket: "elasticbeanstalk-ap-northeast-2-053255126826/profileImage",   // s3 버킷명+경로
+    key: (req, file, callback) => {
+        let dir = 'profileimage';
+        let datetime = new Date();
+        callback(null, dir + "/"+datetime + "_" + file.originalname);  // 저장되는 파일명
+    }
+});
+const upload = multer({ storage: storage });
+
 router.get('/signup', (req, res)=>{
     res.render('signup2');
 })
-router.post('/signup', async (req, res, next)=>{
+router.post('/signup', upload.single('profile_img'), async (req, res, next)=>{
     console.log("Sign up post is in here")
-    console.log(req.body)
+    console.log(req.body);
+    req.body.profile_img = req.file.location;
     let result
     try{
         let options = {

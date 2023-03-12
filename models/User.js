@@ -5,7 +5,8 @@ const saltRounds = 10;
 const userSchema = new mongoose.Schema({
     email : String,
     password : String,
-    nickname : String
+    nickname : String,
+    profile_img : String
 });
 
 userSchema.pre('save' , async function(next){

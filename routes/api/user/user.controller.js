@@ -1,20 +1,22 @@
 const User = require('../../../models/User');
 const SavedBook = require('../../../models/SavedBook');
 const jwt = require('jsonwebtoken');
+const request = require('requestretry');
 const bcrypt = require('bcrypt');
-const AWS = require('aws-sdk');
 
 exports.signup = async (req, res) => {
     const createUser = async () => {    
         try{
-            const {email, password, nickname} = req.body;
+            const {email, password, nickname, profile_img} = req.body;
             console.log(email)
             const exist = await User.exists({email: email});
             console.log(exist);
             // 이미지를 전달 받아서 aws s3에 올리고, url을 저장하는 작업이 필요함
+            let result
+
             if(!exist){
                 const user = await User.create({
-                    email, password, nickname
+                    email, password, nickname, profile_img
                 })
                 return res.json({
                     status : {

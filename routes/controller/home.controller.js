@@ -16,7 +16,6 @@ router.get('/', async(req, res, next) => {
         }
         result = await request(options);
         items = result.body.data;
-        console.log(items)
     }catch(error){
         console.log(error);
     }
