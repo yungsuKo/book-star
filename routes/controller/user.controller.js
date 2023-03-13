@@ -1,6 +1,7 @@
 const express = require('express');
 const request = require('requestretry');
 const router = express();
+const User= require('../../models/User');
 
 const aws = require('aws-sdk');
 const fs = require('fs')
@@ -122,6 +123,7 @@ router.get("/mypage", async (req, res)=>{
     let sendData = {
         email: req.cookies.email
     }
+    const user = await User.findOne({email: req.cookies.email});
     try{
         let options = {
             url: "http://127.0.0.1:3000/api/user/mybooks",
@@ -134,7 +136,8 @@ router.get("/mypage", async (req, res)=>{
         }
         result = await request(options);
         const items = result.body;
-        res.render("mypage2",{items})
+        console.log(user)
+        res.render("mypage2",{items, user})
     }catch(err){
         console.log(err)
     }
@@ -173,7 +176,6 @@ router.post("/mypage/:id", async (req, res)=>{
         email: req.cookies.email,
         comment : req.body.comment,
     };
-    console.log(sendData.comment)
     let {id} = req.params;
     try{
         let options = {

@@ -1,7 +1,7 @@
 <header class="blog-header lh-1 py-3">
 	<div class="row flex-nowrap justify-content-between align-items-center">
 		<div class="col-4 pt-1">
-			<a class="link-secondary" href="#">Subscribe</a>
+			<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBookModal">Add Book</button>
 		</div>
 		<div class="col-4 text-center">
 			<a class="blog-header-logo text-dark" href="/">BOOOOKS</a>
@@ -19,11 +19,26 @@
 		</div>
 	</div>
 </header>
-<!-- <script>
-	$('.menu_btn').click(function(e){
-		$('.menu_open-background').toggleClass('unshow');
-	})
-	$('.menu_open-close').click(function(e){
-		$('.menu_open-background').toggleClass('unshow');
-	})
-</script> -->
+<div class="modal fade" tabindex="-1" style="background-color:rgba(0,0,0,30%)" id="addBookModal">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Comment</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="modal_box-description d-flex flex-column">
+					
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" id="book_comment-save" data-bs-dismiss="modal" >Save changes</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+<script>
+	console.log('hi');
+</script>
