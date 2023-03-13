@@ -49,7 +49,8 @@ router.post('/save/:id', async(req, res, next) => {
                 comment: req.body.comment,
                 title: req.body.title,
                 img: req.body.img,
-                rating: req.body.rating
+                rating: req.body.rating,
+                bookUrl: req.body.bookUrl
             },
             maxAttempts: 2,
             retryDelay: 500,

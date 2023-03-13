@@ -23,22 +23,49 @@
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">Comment</h5>
+				<h5 class="modal-title">Book URL</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
 				<div class="modal_box-description d-flex flex-column">
-					
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+						  	<span class="input-group-text" id="inputGroup-sizing-default">교보문고</span>
+						</div>
+						<input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" id="bookUrl">
+					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary" id="book_comment-save" data-bs-dismiss="modal" >Save changes</button>
+				<button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="saveBtn">Save changes</button>
 			</div>
 		</div>
 	</div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 <script>
-	console.log('hi');
+	let email = $.cookie("email");
+	$('#saveBtn').click((e)=>{
+		e.preventDefault();
+		let bookUrl = $('#bookUrl').val();
+		console.log(bookUrl);
+		let sendData = { 
+			bookUrl,
+			email, 
+		};
+		console.log(sendData)
+
+		$.ajax({
+			url: `/book/save/newBook`,
+			type: "post",
+			contentType: "application/json",
+			data: JSON.stringify(sendData),
+			success: function (result) {
+				console.log('hi')
+				window.location = "/user/mypage";
+			},
+		});
+		// fetch로 api로 콜을 보냄
+	})
 </script>

@@ -2,6 +2,8 @@ const request = require('requestretry');
 const convert = require('xml-js');
 const SavedBook = require('../../../models/SavedBook');
 const User = require('../../../models/User');
+const puppeteer = require("puppeteer");
+const cheerio = require("cheerio");
 
 exports.getBookList = async (req, res) => {
     const getData = async (req) => {
@@ -191,59 +193,81 @@ exports.getBookDetail = async (req, res) => {
 exports.postBookSave = async (req, res) => {
     const postData = async () => {
         const {id} = req.params;
-        console.log(req.params)
-        const {email, comment, title, img, rating} = req.body;
+        const {bookUrl, email} = req.body;
+        if(id === 'newBook'){
+            // 크롤링
+            console.log('hi im in here');
+            try {
+                const browser = await puppeteer.launch({ headless: false });
+                const page = await browser.newPage();
+                await page.goto(bookUrl);
+                const content = await page.content();
+                const $ = cheerio.load(content);
+                const title = $('#contents > div.prod_detail_header > div > div.prod_detail_title_wrap > div > div.prod_title_box.auto_overflow_wrap > div.auto_overflow_contents > div > h1 > span').text();
+                console.log(title);
+                await page.close();
+                await browser.close();
+              } catch (error) {
+                console.log(error);
+              }
 
-        try{
-            const user = await User.findOne({email});
+            return res.json({
+                status: {
+                    code: 200
+                }
+            })
+        }else{
             try{
-                const exist = await SavedBook.findOne({uid: user._id, isbn: id});
-                if(!exist){
-                    let book = await SavedBook.create({
-                        isbn: id,
-                        uid: user._id,
-                        img,
-                        comment,
-                        title,
-                        rating,
-                        use_yn: 'y'
-                    })
-                    console.log(book);
-                    return res.json({
-                        status: {
-                            code: 200
-                        }
-                    })
-                }else{
-                    let updatedBook = await SavedBook.findOneAndUpdate({
-                        isbn: id,
-                        uid: user._id,
-                    }, {$set:
-                        {
+                const user = await User.findOne({email});
+                try{
+                    const exist = await SavedBook.findOne({uid: user._id, isbn: id});
+                    if(!exist){
+                        let book = await SavedBook.create({
                             isbn: id,
                             uid: user._id,
+                            img,
                             comment,
                             title,
-                            img,
                             rating,
-                            use_yn: 'y',
-                            update_dt : new Date(Date.now())
-                        }
-                    },{
-                        new: true
-                    })
-                    return res.json({
-                        status: {
-                            code: 200
-                        }
-                    })
+                            use_yn: 'y'
+                        })
+                        console.log(book);
+                        return res.json({
+                            status: {
+                                code: 200
+                            }
+                        })
+                    }else{
+                        let updatedBook = await SavedBook.findOneAndUpdate({
+                            isbn: id,
+                            uid: user._id,
+                        }, {$set:
+                            {
+                                isbn: id,
+                                uid: user._id,
+                                comment,
+                                title,
+                                img,
+                                rating,
+                                use_yn: 'y',
+                                update_dt : new Date(Date.now())
+                            }
+                        },{
+                            new: true
+                        })
+                        return res.json({
+                            status: {
+                                code: 200
+                            }
+                        })
+                    }
+                    
+                }catch(error){
+                    console.log(error);
                 }
-                
-            }catch(error){
-                console.log(error);
+            }catch(err){
+                onError(err);
             }
-        }catch(err){
-            onError(err);
         }
     }
     // error occured

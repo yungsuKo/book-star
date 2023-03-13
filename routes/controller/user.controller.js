@@ -136,7 +136,6 @@ router.get("/mypage", async (req, res)=>{
         }
         result = await request(options);
         const items = result.body;
-        console.log(user)
         res.render("mypage2",{items, user})
     }catch(err){
         console.log(err)
