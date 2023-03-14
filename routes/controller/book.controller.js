@@ -57,17 +57,12 @@ router.post('/save/:id', async(req, res, next) => {
             retryStrategy: request.RetryStrategies.HTTPOrNetworkError
         }
         result = await request(options);
-        item = result.body.data;
+        item = result.body;
         console.log(item);
     }catch(error){
         console.log(error);
     }
-    res.json({
-        status: {
-            code: 200,
-            message : 'Book save success'
-        }
-    })
+    res.json(item)
 })
 
 router.post('/unsave/:id', async(req, res, next) => {

@@ -196,7 +196,6 @@
 			
 		</footer>
 		<script>
-			let email = $.cookie("email");
 			let isLogin = email ? true : false;
 			const drawStar = (target) => {
 				document.querySelector(`.star span`).style.width = `${
@@ -241,6 +240,7 @@
 				let title = $('.book_info-title').text().trim();
 				let comment = $('.comment').val();
 				let rating = $('.rating').val();
+				console.log(comment)
 				sendData = { email, comment,title, img, rating };
 				console.log(title);
 				try {

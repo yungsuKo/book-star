@@ -193,32 +193,50 @@ exports.getBookDetail = async (req, res) => {
 exports.postBookSave = async (req, res) => {
     const postData = async () => {
         const {id} = req.params;
-        const {bookUrl, email} = req.body;
-        if(id === 'newBook'){
-            // 크롤링
-            console.log('hi im in here');
-            try {
-                const browser = await puppeteer.launch({ headless: false });
-                const page = await browser.newPage();
-                await page.goto(bookUrl);
-                const content = await page.content();
-                const $ = cheerio.load(content);
-                const title = $('#contents > div.prod_detail_header > div > div.prod_detail_title_wrap > div > div.prod_title_box.auto_overflow_wrap > div.auto_overflow_contents > div > h1 > span').text();
-                console.log(title);
-                await page.close();
-                await browser.close();
-              } catch (error) {
-                console.log(error);
-              }
-
-            return res.json({
-                status: {
-                    code: 200
+        const { bookUrl, comment, title, img, rating, email } = req.body;
+        
+        try{
+            const user = await User.findOne({email});
+            if(id === 'newBook'){
+                // 크롤링
+                console.log('hi im in here');
+                try {
+                    const browser = await puppeteer.launch({ headless: false });
+                    const page = await browser.newPage();
+                    await page.goto(bookUrl);
+                    const content = await page.content();
+                    const $ = cheerio.load(content);
+                    const title = $('#contents > div.prod_detail_header > div > div.prod_detail_title_wrap > div > div.prod_title_box.auto_overflow_wrap > div.auto_overflow_contents > div > h1 > span').text();
+                    const isbn = $('#scrollSpyProdInfo > div.product_detail_area.basic_info > div.tbl_row_wrap > table > tbody > tr:nth-child(1) > td').text().split('(')[0].trim();
+                    const author = $('#contents > div.prod_detail_header > div > div.prod_detail_view_wrap > div.prod_detail_view_area > div:nth-child(1) > div > div.prod_author_box.auto_overflow_wrap > div.auto_overflow_contents > div > div > a:nth-child(1)').text();
+                    const img = $('#contents > div.prod_detail_header > div > div.prod_detail_view_wrap > div.prod_detail_view_area > div.col_prod_info.thumb > div.prod_thumb_swiper_wrap.active > div.swiper-container.prod_thumb_list_wrap.swiper-container-fade.swiper-container-horizontal > ul > li.prod_thumb_item.swiper-slide.swiper-slide-visible.swiper-slide-active > div > div.portrait_img_box.portrait > img').attr('src');
+                    console.log(isbn)
+                    await page.close();
+                    await browser.close();
+                    try {
+                        let book = await SavedBook.create({
+                            isbn: id,
+                            uid: user._id,
+                            img,
+                            comment,
+                            title,
+                            rating,
+                            author,
+                            use_yn: 'y'
+                        })
+                        return res.json({
+                            status: {
+                                code: 200
+                            }
+                        })
+                    }
+                    catch(err){
+                        console.log(err);
+                    }
+                } catch (error) {
+                    console.log(error);
                 }
-            })
-        }else{
-            try{
-                const user = await User.findOne({email});
+            }else{   
                 try{
                     const exist = await SavedBook.findOne({uid: user._id, isbn: id});
                     if(!exist){
@@ -238,7 +256,7 @@ exports.postBookSave = async (req, res) => {
                             }
                         })
                     }else{
-                        let updatedBook = await SavedBook.findOneAndUpdate({
+                        await SavedBook.findOneAndUpdate({
                             isbn: id,
                             uid: user._id,
                         }, {$set:
@@ -260,16 +278,21 @@ exports.postBookSave = async (req, res) => {
                                 code: 200
                             }
                         })
-                    }
-                    
+                    }                   
                 }catch(error){
                     console.log(error);
                 }
-            }catch(err){
-                onError(err);
             }
+        }catch(err){
+            console.log(err);
+            return res.json({
+                status: {
+                    code: 401
+                }
+            })
         }
     }
+
     // error occured
     const onError = (error) => {
         res.status(400).json({
