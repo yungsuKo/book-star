@@ -210,12 +210,20 @@ exports.postBookSave = async (req, res) => {
                     const isbn = $('#scrollSpyProdInfo > div.product_detail_area.basic_info > div.tbl_row_wrap > table > tbody > tr:nth-child(1) > td').text().split('(')[0].trim();
                     const author = $('#contents > div.prod_detail_header > div > div.prod_detail_view_wrap > div.prod_detail_view_area > div:nth-child(1) > div > div.prod_author_box.auto_overflow_wrap > div.auto_overflow_contents > div > div > a:nth-child(1)').text();
                     const img = $('#contents > div.prod_detail_header > div > div.prod_detail_view_wrap > div.prod_detail_view_area > div.col_prod_info.thumb > div.prod_thumb_swiper_wrap.active > div.swiper-container.prod_thumb_list_wrap.swiper-container-fade.swiper-container-horizontal > ul > li.prod_thumb_item.swiper-slide.swiper-slide-visible.swiper-slide-active > div > div.portrait_img_box.portrait > img').attr('src');
-                    console.log(isbn)
                     await page.close();
                     await browser.close();
+                    const exist = SavedBook.exists({isbn});
+                    console.log(exist)
+                    if(exist){
+                        return res.json({
+                            status: {
+                                code: 409
+                            }
+                        })
+                    }
                     try {
                         let book = await SavedBook.create({
-                            isbn: id,
+                            isbn,
                             uid: user._id,
                             img,
                             comment,

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+	<%- include('./part/head') %>
+	<body>
+		<main>
+			<%- include('./part/header') %>
+			<div class="book_info-short title">
+				<%= item.title %>
+			</div>
+			<img src="<%=item.img %>"/>
+			<div class="book_info-comment">
+				<p class="comment"><%= item.comment %></p>
+				<div class="edit" data-isbn="<%=item.isbn %>">✏️</div>
+			</div>
+		</main>
+		<script>
+			let email = $.cookie("email");
+			let isLogin = email ? true : false;
+			const drawStar = (target) => {
+				document.querySelector(`.star span`).style.width = `${
+					target.value * 10
+				}%`;
+			};
+
+			let sendData = { email };
+			
+			
+			$(".edit").click(function(e){
+				let isbn = e.target.getAttribute('data-isbn');
+				let existComment = $('.comment').text();
+				$('.book_info-comment').empty();
+				$('.book_info-comment').append(`
+					<form class="book_info-edit" method="post">
+						<input type="text" name=comment value="${existComment}"/>
+						<input type="submit" value="save" class="save_btn"/>
+					</form>
+				`);
+			});
+			// $(".save_btn").click(function(e){
+			// 	fetch
+			// })
+		</script>
+	</body>
+</html>
