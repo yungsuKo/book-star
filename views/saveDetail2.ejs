@@ -1,29 +1,155 @@
 <!DOCTYPE html>
-<html lang="en">
-	<%- include('./part/head') %>
+<html lang="kr">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content="" />
+		<meta
+			name="author"
+			content="Mark Otto, Jacob Thornton, and Bootstrap contributors"
+		/>
+		<meta name="generator" content="Hugo 0.108.0" />
+		<title>Blog Template · Bootstrap v5.3</title>
+
+		<link rel="stylesheet" href="/css/style.css" />
+		<link rel="stylesheet" href="/css/bootstrap.css" />
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+		<script
+			type="text/javascript"
+			src="/js/plugins/jquery.cookie.js"
+		></script>
+
+		<meta name="theme-color" content="#712cf9" />
+
+		<style>
+			.bd-placeholder-img {
+				font-size: 1.125rem;
+				text-anchor: middle;
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				user-select: none;
+			}
+
+			@media (min-width: 768px) {
+				.bd-placeholder-img-lg {
+					font-size: 3.5rem;
+				}
+			}
+
+			.b-example-divider {
+				height: 3rem;
+				background-color: rgba(0, 0, 0, 0.1);
+				border: solid rgba(0, 0, 0, 0.15);
+				border-width: 1px 0;
+				box-shadow: inset 0 0.5em 1.5em rgba(0, 0, 0, 0.1),
+					inset 0 0.125em 0.5em rgba(0, 0, 0, 0.15);
+			}
+
+			.b-example-vr {
+				flex-shrink: 0;
+				width: 1.5rem;
+				height: 100vh;
+			}
+
+			.bi {
+				vertical-align: -0.125em;
+				fill: currentColor;
+			}
+
+			.nav-scroller {
+				position: relative;
+				z-index: 2;
+				height: 2.75rem;
+				overflow-y: hidden;
+			}
+
+			.nav-scroller .nav {
+				display: flex;
+				flex-wrap: nowrap;
+				padding-bottom: 1rem;
+				margin-top: -1px;
+				overflow-x: auto;
+				text-align: center;
+				white-space: nowrap;
+				-webkit-overflow-scrolling: touch;
+			}
+            a{
+                display: block;
+            }
+            .blog-header-logo {
+                font-family: "Playfair Display", Georgia, "Times New Roman", serif/*rtl:Amiri, Georgia, "Times New Roman", serif*/;
+                font-size: 2.25rem;
+            }
+		</style>
+
+		<!-- Custom styles for this template -->
+		<link
+			href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap"
+			rel="stylesheet"
+		/>
+		
+	</head>
 	<body>
-		<main>
-			<%- include('./part/header') %>
-			<div class="book_info-short title">
-				<%= item.title %>
-			</div>
-			<img src="<%=item.img %>"/>
-			<div class="book_info-comment">
-				<p class="comment"><%= item.comment %></p>
-				<div class="edit" data-isbn="<%=item.isbn %>">✏️</div>
+		<div class="container">
+			<%-include('./part/header')%>
+		</div>
+
+		<main class="container">
+			<div class="d-flex row p-1 p-md-2 mb-4 rounded text-bg-white">
+				<div class="col-md-4">
+					<img src="<%=item.img %>"/>
+				</div>
+				<div class="col-md-8 p-3">
+					<div class="d-flex justify-content-between">
+						<h1 class="display-6 book_info-title">
+							<%= item.title %>
+						</h1>
+					</div>
+					<!-- <p class="lead my-3">
+						<%= item.comment %>
+					</p> -->
+					<div class="book_info-comment">
+						<p class="comment"><%= item.comment %></p>
+						<div class="edit" data-isbn="<%=item.isbn %>">✏️</div>
+					</div>
+					<p class="lead mb-0">
+						<a href="#" class="text-white fw-bold"
+							>Continue reading...</a
+						>
+					</p>
+				</div>
 			</div>
 		</main>
+		<div class="modal fade" tabindex="-1" style="background-color:rgba(0,0,0,30%)" id="signupModal">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Please Sign up First</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<p>회원가입을 먼저 진행해주세요!</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+						<a href="/user/signup" class="btn btn-primary">회원가입</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+
+		<footer class="blog-footer mt-3">
+			
+		</footer>
 		<script>
-			let email = $.cookie("email");
 			let isLogin = email ? true : false;
 			const drawStar = (target) => {
 				document.querySelector(`.star span`).style.width = `${
 					target.value * 10
 				}%`;
 			};
-
 			let sendData = { email };
-			
 			
 			$(".edit").click(function(e){
 				let isbn = e.target.getAttribute('data-isbn');
@@ -36,9 +162,6 @@
 					</form>
 				`);
 			});
-			// $(".save_btn").click(function(e){
-			// 	fetch
-			// })
 		</script>
 	</body>
 </html>

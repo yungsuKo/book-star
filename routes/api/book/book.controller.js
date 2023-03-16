@@ -212,7 +212,7 @@ exports.postBookSave = async (req, res) => {
                     const img = $('#contents > div.prod_detail_header > div > div.prod_detail_view_wrap > div.prod_detail_view_area > div.col_prod_info.thumb > div.prod_thumb_swiper_wrap.active > div.swiper-container.prod_thumb_list_wrap.swiper-container-fade.swiper-container-horizontal > ul > li.prod_thumb_item.swiper-slide.swiper-slide-visible.swiper-slide-active > div > div.portrait_img_box.portrait > img').attr('src');
                     await page.close();
                     await browser.close();
-                    const exist = SavedBook.exists({isbn});
+                    const exist = await SavedBook.exists({isbn, use_yn: 'y'});
                     console.log(exist)
                     if(exist){
                         return res.json({

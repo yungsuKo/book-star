@@ -161,7 +161,7 @@ router.get("/mypage/:id", async (req, res)=>{
         result = await request(options);
         item = result.body
         
-        res.render("saveDetail",{
+        res.render("saveDetail2",{
             item
         })
     }catch(err){
