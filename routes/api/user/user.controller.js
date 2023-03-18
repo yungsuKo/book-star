@@ -88,6 +88,60 @@ exports.login = async (req, res) => {
     await loginUser();
 }
 
+expoert.signInKakao = async (req, res) => {
+    // const headers = req.headers["authorization"];
+    // const kakaoToken = headers.split(" ")[1];
+    const kakaoToken = ""
+
+    const result = await axios.get("https://kapi.kakao.com/v2/user/me", {
+        headers: {
+            Authorization: `Bearer ${kakaoToken}`,
+        },
+    });
+    const {data} = result;
+    const name = data.properties.nickname;
+    const email = data.kakao_account.email;
+    const kakaoId = data.id;
+    const profileImage = data.properties.profile_image;
+
+    if (!name || !email || !kakaoId) throw new error("KEY_ERROR", 400);
+
+    const user = await User.findOne({email});
+
+    if (!user) {
+        // await userDao.signUp(email, name, kakaoId, profileImage);
+        // formData생성 후 감싸서 axios로 회원가입 로직을 타게함.
+        // var formData = new FormData();
+        // 회원가입을 실행시킴
+        // const options = {
+        //     url: 'https://example.com/upload',
+        //     method: 'POST',
+        //     formData: {
+        //       image: {
+        //         value: req.file.buffer,
+        //         options: {
+        //           filename: req.file.originalname,
+        //           contentType: req.file.mimetype
+        //         }
+        //       }
+        //     }
+        //   };
+        
+        //   request(options, (err, response, body) => {
+        //     if (err) {
+        //       console.error(err);
+        //       res.status(500).send('Internal Server Error');
+        //       return;
+        //     }
+        //     res.send('File uploaded successfully');
+        //   });
+    }
+
+    const accessToken = jwt.sign({ kakao_id: user[0].kakao_id }, process.env.TOKKENSECRET);
+    
+    return res.status(200).json({ accessToken: accessToken });
+}
+
 exports.logout = async (req, res) => {
     const logoutUser = async () => {    
         try{
