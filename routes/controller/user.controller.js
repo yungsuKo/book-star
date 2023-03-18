@@ -60,6 +60,7 @@ router.get('/login', (req, res)=>{
         errorMsg: ""
     });
 })
+
 router.post('/login', async (req, res, next)=>{
     let result;
     let user;
@@ -95,6 +96,7 @@ router.post('/login', async (req, res, next)=>{
         console.log(err);
     }
 })
+
 router.get("/logout", async (req, res)=>{
     let result;
     try{

@@ -2,6 +2,7 @@ const path = require('path')
 const express = require('express');
 const authMiddleware = require('./middlewares/jwt');
 const cookieParser = require('cookie-parser')
+const cors = require('cors');
 const app = express();
 const db = require('./db');
 require('dotenv').config();
@@ -10,6 +11,7 @@ db();
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+app.use(cors());
 // Parse URL-encoded bodies (as sent by HTML forms)
 app.use(express.urlencoded());
 // Parse JSON bodies (as sent by API clients)

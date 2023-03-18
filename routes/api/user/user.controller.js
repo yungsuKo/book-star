@@ -2,15 +2,16 @@ const User = require('../../../models/User');
 const SavedBook = require('../../../models/SavedBook');
 const jwt = require('jsonwebtoken');
 const request = require('requestretry');
+const axios = require('axios');
 const bcrypt = require('bcrypt');
+const qs = require('qs');
+const { query } = require('express');
 
 exports.signup = async (req, res) => {
     const createUser = async () => {    
         try{
             const {email, password, nickname, profile_img} = req.body;
-            console.log(email)
             const exist = await User.exists({email: email});
-            console.log(exist);
             // 이미지를 전달 받아서 aws s3에 올리고, url을 저장하는 작업이 필요함
             let result
 
@@ -88,58 +89,83 @@ exports.login = async (req, res) => {
     await loginUser();
 }
 
-expoert.signInKakao = async (req, res) => {
-    // const headers = req.headers["authorization"];
-    // const kakaoToken = headers.split(" ")[1];
-    const kakaoToken = ""
-
-    const result = await axios.get("https://kapi.kakao.com/v2/user/me", {
-        headers: {
-            Authorization: `Bearer ${kakaoToken}`,
-        },
-    });
-    const {data} = result;
-    const name = data.properties.nickname;
-    const email = data.kakao_account.email;
-    const kakaoId = data.id;
-    const profileImage = data.properties.profile_image;
-
-    if (!name || !email || !kakaoId) throw new error("KEY_ERROR", 400);
-
-    const user = await User.findOne({email});
-
-    if (!user) {
-        // await userDao.signUp(email, name, kakaoId, profileImage);
-        // formData생성 후 감싸서 axios로 회원가입 로직을 타게함.
-        // var formData = new FormData();
-        // 회원가입을 실행시킴
-        // const options = {
-        //     url: 'https://example.com/upload',
-        //     method: 'POST',
-        //     formData: {
-        //       image: {
-        //         value: req.file.buffer,
-        //         options: {
-        //           filename: req.file.originalname,
-        //           contentType: req.file.mimetype
-        //         }
-        //       }
-        //     }
-        //   };
-        
-        //   request(options, (err, response, body) => {
-        //     if (err) {
-        //       console.error(err);
-        //       res.status(500).send('Internal Server Error');
-        //       return;
-        //     }
-        //     res.send('File uploaded successfully');
-        //   });
-    }
-
-    const accessToken = jwt.sign({ kakao_id: user[0].kakao_id }, process.env.TOKKENSECRET);
+exports.signInKakao = async (req, res) => {
+    const headers = req.headers["authorization"];
+    const kakaoToken = req.query.code;
+    console.log('hi')
+    let sendData = {
+        grant_type: 'authorization_code',
+        client_id: process.env.KAKAO_REST_API_KEY, 
+        code: kakaoToken,
+        redirect_uri: process.env.KAKAO_REDIRECT_URI,
+        client_secret: process.env.KAKAO_REST_API_SECRET
+    };
     
-    return res.status(200).json({ accessToken: accessToken });
+    sendData = qs.stringify(sendData);
+    // 여기서의 카카오 토큰은 클라이언트단에서 넘어와야함
+    const result = await axios.post(
+        "https://kauth.kakao.com/oauth/token", 
+        sendData,
+        'Content-Type=application/x-www-form-urlencoded'
+    ); 
+    const {data: {access_token, refresh_token}} = result;
+    console.log(access_token)
+    
+    const userData = await axios.get("https://kapi.kakao.com/v2/user/me",{
+        headers: {
+            Authorization: `Bearer ${access_token}`,
+            'Content-Type': 'application/json;charset=utf-8',
+        }
+    })
+    const {data : {kakao_account}}= userData;
+    console.log(kakao_account);
+    const nickname = kakao_account.profile.nickname;
+    let email = kakao_account.email;
+    const kakaoId = userData.data.id;
+    const profile_img = kakao_account.profile.thumbnail_image_url;
+
+    if (!nickname || !email || !kakaoId) throw new error("KEY_ERROR", 400);
+
+    let user = await User.findOne({email});
+    let signupResult
+    if (!user) {
+        // 회원가입을 실행시킴
+        // 카카오에서 전달 받은 인자를 전달 받음
+        const options = {
+            url: process.env.BASE_URL + '/api/user/signup',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            json: true,
+            maxAttempts: 2,
+            retryDelay: 500,
+            retryStrategy: request.RetryStrategies.HTTPOrNetworkError,
+            body: {
+                profile_img,
+                email,
+                nickname, 
+                kakaoId,
+                password: ''
+            }
+        };
+        
+        signupResult = await request(options);
+        console.log(signupResult.body)
+        user =signupResult.body.data;
+    }
+    email = user.email;
+    
+    const loginUserToken = jwt.sign({email}, process.env.JWT_SECRET,{
+        expiresIn : 1000*60*60,
+    })
+
+    res.cookie("token", loginUserToken,
+        {
+            httpOnly: true, expires: new Date(Date.now() + 5000)
+        }
+    );
+    res.redirect("/");
 }
 
 exports.logout = async (req, res) => {
