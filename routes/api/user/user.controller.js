@@ -6,6 +6,7 @@ const axios = require('axios');
 const bcrypt = require('bcrypt');
 const qs = require('qs');
 const { query } = require('express');
+const base_url = process.env.BASE_URL || 'http://localhost:3000';
 
 exports.signup = async (req, res) => {
     const createUser = async () => {    
@@ -97,7 +98,7 @@ exports.signInKakao = async (req, res) => {
         grant_type: 'authorization_code',
         client_id: process.env.KAKAO_REST_API_KEY, 
         code: kakaoToken,
-        redirect_uri: process.env.KAKAO_REDIRECT_URI,
+        redirect_uri: base_url+process.env.KAKAO_REDIRECT_URI,
         client_secret: process.env.KAKAO_REST_API_SECRET
     };
     
@@ -132,7 +133,7 @@ exports.signInKakao = async (req, res) => {
         // 회원가입을 실행시킴
         // 카카오에서 전달 받은 인자를 전달 받음
         const options = {
-            url: process.env.BASE_URL + '/api/user/signup',
+            url: process.env.base_url + '/api/user/signup',
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

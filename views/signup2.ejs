@@ -136,9 +136,9 @@
 				let profile_img = $("#profile_img").val();
 				console.log(password, password2);
 				if (password !== password2) {
-					// e.preventDefault => 자동으로 submit이 되지 않도록
+					e.preventDefault(); //=> 자동으로 submit이 되지 않도록
 					// 근데 현재는 위 코드가 없어도 제대로 실행되는디..무엇이 문제인가
-					document.location.replace('http://127.0.0.1:3000/user/signup');
+					document.location.replace('/user/signup');
 					alert("비밀번호가 다릅니다.")
 				}
 			});

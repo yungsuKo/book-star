@@ -4,6 +4,8 @@ const router = express();
 const BookSave = require('../../models/SavedBook');
 const User = require('../../models/User');
 
+const base_url = process.env.BASE_URL || 'http://localhost:3000';
+
 router.get('/:id', async(req, res, next) => {
     let result;
     let item;
@@ -13,7 +15,7 @@ router.get('/:id', async(req, res, next) => {
         let user = await User.find({email})
         
         let options = {
-            url: `http://127.0.0.1:3000/api/book/${req.params.id}`,
+            url: `${base_url}/api/book/${req.params.id}`,
             method: 'GET',
             json: true,
             maxAttempts: 2,
@@ -41,7 +43,7 @@ router.post('/save/:id', async(req, res, next) => {
     let item;
     try{
         let options = {
-            url: `http://127.0.0.1:3000/api/book/save/${req.params.id}`,
+            url: `${base_url}/api/book/save/${req.params.id}`,
             method: 'post',
             json: true,
             body: {
@@ -71,7 +73,7 @@ router.post('/unsave/:id', async(req, res, next) => {
     console.log(req.params.id)
     try{
         let options = {
-            url: `http://127.0.0.1:3000/api/book/unsave/${req.params.id}`,
+            url: `${base_url}/api/book/unsave/${req.params.id}`,
             method: 'post',
             json: true,
             body: {email: req.body.email},

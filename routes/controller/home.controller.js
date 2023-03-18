@@ -2,12 +2,14 @@ const express = require('express');
 const request = require('requestretry');
 const router = express();
 
+const base_url = process.env.BASE_URL || 'http://localhost:3000';
+
 router.get('/', async(req, res, next) => {
     let result;
     try{
         console.log("req.cookies : ",req.cookies)
         let options = {
-            url: `http://127.0.0.1:3000/api/book`,
+            url: `${base_url}/api/book`,
             method: 'GET',
             json: true,
             maxAttempts: 2,
@@ -16,6 +18,7 @@ router.get('/', async(req, res, next) => {
         }
         result = await request(options);
         items = result.body.data;
+        console.log(process.env.BASE_URL)
     }catch(error){
         console.log(error);
     }

@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser')
 const cors = require('cors');
 const app = express();
 const db = require('./db');
+const port = process.env.PORT || 3000;
 require('dotenv').config();
 
 db();
@@ -25,6 +26,6 @@ app.use('/', require('./routes/controller/home.controller'));
 app.use('/book', require('./routes/controller/book.controller'));
 app.use('/user', require('./routes/controller/user.controller'));
 
-app.listen(3000, ()=>{
+app.listen(port, ()=>{
     console.log("server is running");
 })

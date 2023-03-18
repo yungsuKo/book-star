@@ -13,6 +13,8 @@ const s3 = new aws.S3({
     region: 'ap-northeast-2',
 });
 
+const base_url = process.env.BASE_URL || 'http://localhost:3000';
+
 const storage = multerS3({
     s3: s3,
     acl: 'public-read-write',
@@ -31,11 +33,11 @@ router.get('/signup', (req, res)=>{
 router.post('/signup', upload.single('profile_img'), async (req, res, next)=>{
     console.log("Sign up post is in here")
     console.log(req.body);
-    req.body.profile_img = req.file.location;
+    req.body.profile_img = req?.file?.location;
     let result
     try{
         let options = {
-            url: process.env.BASE_URL+"/api/user/signup",
+            url: base_url+"/api/user/signup",
             method: "post",
             json: true,
             maxAttempts: 2,
@@ -57,7 +59,8 @@ router.post('/signup', upload.single('profile_img'), async (req, res, next)=>{
 
 router.get('/login', (req, res)=>{
     res.render('login2',{
-        errorMsg: ""
+        errorMsg: "",
+        base_url
     });
 })
 
@@ -66,7 +69,7 @@ router.post('/login', async (req, res, next)=>{
     let user;
     try{
         let options = {
-            url: process.env.BASE_URL+"/api/user/login",
+            url: base_url+"/api/user/login",
             method: "post",
             json: true,
             maxAttempts: 2,
@@ -88,7 +91,8 @@ router.post('/login', async (req, res, next)=>{
         }
         else if(code === 401){
             res.render("login2", {
-                errorMsg : message
+                errorMsg : message,
+                base_url
             });
         }
         
@@ -101,7 +105,7 @@ router.get("/logout", async (req, res)=>{
     let result;
     try{
         let options = {
-            url: "http://127.0.0.1:3000/api/user/logout",
+            url: `${base_url}/api/user/logout`,
             method: "post",
             json: true,
             maxAttempts: 2,
@@ -128,7 +132,7 @@ router.get("/mypage", async (req, res)=>{
     const user = await User.findOne({email: req.cookies.email});
     try{
         let options = {
-            url: "http://127.0.0.1:3000/api/user/mybooks",
+            url: `${base_url}/api/user/mybooks`,
             method: "get",
             json: true,
             maxAttempts: 2,
@@ -152,7 +156,7 @@ router.get("/mypage/:id", async (req, res)=>{
     let {id} = req.params
     try{
         let options = {
-            url: `http://127.0.0.1:3000/api/user/mybooks/${id}`,
+            url: `${base_url}/api/user/mybooks/${id}`,
             method: "get",
             json: true,
             maxAttempts: 2,
@@ -180,7 +184,7 @@ router.post("/mypage/:id", async (req, res)=>{
     let {id} = req.params;
     try{
         let options = {
-            url: `http://127.0.0.1:3000/api/user/mybooks/${id}`,
+            url: `${base_url}/api/user/mybooks/${id}`,
             method: "post",
             json: true,
             maxAttempts: 2,
